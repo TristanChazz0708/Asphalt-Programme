@@ -300,19 +300,43 @@
     // -------------------------
     // Parsing & Math Engine
     // -------------------------
-    function parseDecoded(text){
+     function parseDecoded(text){
       const s = (text||'').trim();
-      let parsed = { time: new Date().toISOString(), material:'', truck:'', tonnage: 0, raw: s };
+      let parsed = { time: new Date().toISOString(), material:'Unknown Mix', truck:'Unknown', tonnage: 0, raw: s };
       
+      // 1. Try JSON parsing just in case some plants use it
       try {
         const obj = JSON.parse(s);
         parsed.time = obj.timestamp || parsed.time;
-        parsed.material = obj.materialType || obj.material || '';
-        parsed.truck = obj.ticket || obj.truckId || obj.truck || '';
-        parsed.tonnage = parseFloat(obj.netWeight || obj.tonnage || 0);
+        parsed.material = obj.materialType || obj.Product || obj.material || parsed.material;
+        parsed.truck = obj.ticket || obj.DeliveryNote || obj.truckId || parsed.truck;
+        parsed.tonnage = parseFloat(obj.Net || obj.netWeight || obj.tonnage || 0);
         return parsed;
       } catch(e){} 
      
+      // 2. THE MUCH ASPHALT SNIPER (Regex Key-Value Extraction)
+      const extract = (regex) => {
+          const match = s.match(regex);
+          return match ? match[1].trim() : null;
+      };
+
+      // Hunt for specific Much Asphalt keys (case-insensitive)
+      const deliveryNote = extract(/DeliveryNote:\s*([^\n\r]+)/i);
+      const product = extract(/Product:\s*([^\n\r]+)/i);
+      const netMass = extract(/Net:\s*([\d.]+)/i);
+      const despatched = extract(/Despatched:\s*([^\n\r]+)/i);
+      const reg = extract(/Registration:\s*([^\n\r]+)/i);
+
+      // If we find at least a ticket or a mass, we know it's a valid plant ticket
+      if (deliveryNote || netMass || product) {
+          parsed.truck = deliveryNote || reg || 'N/A';
+          parsed.material = product || 'Asphalt';
+          parsed.tonnage = parseFloat(netMass) || 0;
+          if (despatched) parsed.time = despatched;
+          return parsed;
+      }
+
+      // 3. Fallback for generic basic QR codes (comma or pipe separated)
       const parts = s.split(/[\n\r|;,]+/).map(p=>p.trim()).filter(Boolean);
       if(parts.length >= 4) {
           parsed.time = parts[0]; parsed.material = parts[1]; parsed.truck = parts[2]; parsed.tonnage = parseFloat(parts[3] || 0);
@@ -321,6 +345,7 @@
       }
       return parsed;
     }
+
  
     async function handleDecodedText(decodedText){
       const parsed = parseDecoded(decodedText);
