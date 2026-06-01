@@ -1,49 +1,64 @@
-const CACHE_VERSION = 'ten-civils-pacing-v2-nologo'; 
-
-const APP_SHELL = [
+const CACHE_NAME = 'ss-coastal-paveops-v1';
+const ASSETS = [
   './',
   './index.html',
   './manifest.json',
   './libs/jsqr.min.js',
-  './libs/zxing.min.js'
+  './libs/zxing.min.js',
+  './assets/ss-logo.png'
 ];
- 
-self.addEventListener('install', event => {
-  self.skipWaiting();
-  event.waitUntil(
-    caches.open(CACHE_VERSION).then(cache => {
-      console.log('[SW] Pre-caching Ten Civils App Shell (No Logos)');
-      return cache.addAll(APP_SHELL);
-    })
+
+// Install and Cache Core Assets
+self.addEventListener('install', (e) => {
+  e.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => {
+      return cache.addAll(ASSETS);
+    }).then(() => self.skipWaiting())
   );
 });
- 
-self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys().then(keys => {
+
+// Activate & Clean Up Old Caches
+self.addEventListener('activate', (e) => {
+  e.waitUntil(
+    caches.keys().then((keys) => {
       return Promise.all(
-        keys.filter(key => key !== CACHE_VERSION).map(key => caches.delete(key))
+        keys.map((key) => {
+          if (key !== CACHE_NAME) {
+            return caches.delete(key);
+          }
+        })
       );
     }).then(() => self.clients.claim())
   );
 });
- 
-self.addEventListener('fetch', event => {
-  if (event.request.method !== 'GET') return;
-  event.respondWith(
-    caches.match(event.request).then(cachedResponse => {
-      const fetchPromise = fetch(event.request).then(networkResponse => {
-        if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
-          caches.open(CACHE_VERSION).then(cache => cache.put(event.request, networkResponse.clone()));
+
+// Network-First Strategy for Cloud Auth & Logging Data
+self.addEventListener('fetch', (e) => {
+  const url = new URL(e.request.url);
+
+  // Bypass application caching completely for live database/auth traffic
+  if (url.hostname.includes('supabase.co')) {
+    e.respondWith(
+      fetch(e.request).catch(() => {
+        return new Response(
+          JSON.stringify({ error: "Offline network state. Database operation unreachable." }), 
+          { headers: { 'Content-Type': 'application/json' } }
+        );
+      })
+    );
+    return;
+  }
+
+  // Handle standard static PWA shell asset loading
+  e.respondWith(
+    fetch(e.request)
+      .then((response) => {
+        if (response.status === 200) {
+          const resClone = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(e.request, resClone));
         }
-        return networkResponse;
-      }).catch(() => {});
- 
-      if (cachedResponse) return cachedResponse;
-      return fetchPromise.catch(() => {
-        if (event.request.mode === 'navigate') return caches.match('./index.html');
-      });
-    })
+        return response;
+      })
+      .catch(() => caches.match(e.request))
   );
 });
-
