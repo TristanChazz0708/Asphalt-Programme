@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Titan Consolidated | Pave Ops</title>
+    <title>Stefanutti Stocks Coastal | Pave Ops</title>
     <meta name="theme-color" content="#151b22">
     <link rel="manifest" href="manifest.json">
     
+    <!-- DOMAIN LOCK SECURITY -->
     <script>
         (function() {
             const allowedDomains = [
+                "stefanuttistocks.com",
                 "tristanchazz0708.github.io",
                 "tristanchazz.github.io", 
-                "tencivilspaveops.netlify.app", 
-                "ten-civils-asphalt-management.vercel.app",
                 "localhost", 
                 "127.0.0.1"
             ];
@@ -21,12 +21,13 @@
             const isAllowed = allowedDomains.some(domain => currentDomain.includes(domain));
             if (!isAllowed) {
                 window.stop(); 
-                document.documentElement.innerHTML = "<head><title>Access Denied</title></head><body style='background:#151b22; color:#e11d48; display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; font-family:sans-serif; margin:0; text-align:center; padding:20px;'><h1 style='font-weight:900; letter-spacing:2px; text-transform:uppercase;'>Security Breach:<br>Unauthorized Host</h1><p style='color:#f8fafc; margin-top:10px;'>This software is locked to Titan Digital Labs infrastructure. Access Denied.</p></body>";
+                document.documentElement.innerHTML = "<head><title>Access Denied</title></head><body style='background:#151b22; color:#e11d48; display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; font-family:sans-serif; margin:0; text-align:center; padding:20px;'><h1 style='font-weight:900; letter-spacing:2px; text-transform:uppercase;'>Security Breach:<br>Unauthorized Host</h1><p style='color:#f8fafc; margin-top:10px;'>This software is locked to Stefanutti Stocks infrastructure. Access Denied.</p></body>";
                 throw new Error("Security Override: Execution Halted.");
             }
         })();
     </script>
 
+    <!-- TAILWIND & FONTS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     
@@ -64,14 +65,14 @@
             --border-color: #2d3745; 
             --text-main: #f8fafc; 
             --text-muted: #94a3b8; 
-            --theme-accent: #1f9d86; 
-            --theme-accent-hover: #19826f; 
-            --btn-text: #ffffff;
+            --theme-accent: #eab308; /* Updated to gold/yellow accent for Stefanutti brand feel */
+            --theme-accent-hover: #ca8a04; 
+            --btn-text: #000000;
         }
 
         .camera-square { width: 100%; padding-top: 100%; position: relative; overflow: hidden; border-radius: 12px; background: #000; border: 1px solid var(--border-color); }
         .camera-square video { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: auto; height: 100%; min-width: 100%; min-height: 100%; object-fit: cover; }
-        .finder { position: absolute; top: 50%; left: 50%; width: 70%; height: 70%; transform: translate(-50%,-50%); box-sizing: border-box; pointer-events: none; border: 2px solid rgba(31, 157, 134, 0.5); border-radius: 6px; box-shadow: 0 0 0 9999px rgba(0,0,0,0.6) inset; }
+        .finder { position: absolute; top: 50%; left: 50%; width: 70%; height: 70%; transform: translate(-50%,-50%); box-sizing: border-box; pointer-events: none; border: 2px solid rgba(234, 179, 8, 0.5); border-radius: 6px; box-shadow: 0 0 0 9999px rgba(0,0,0,0.6) inset; }
         .finder::before, .finder::after, .finder span::before, .finder span::after { content: ""; position: absolute; background: var(--theme-accent); border-radius: 2px; }
         .finder::before { top: -2px; left: -2px; width: 28px; height: 4px; }
         .finder::after { bottom: -2px; right: -2px; width: 28px; height: 4px; }
@@ -81,23 +82,39 @@
 </head>
 <body class="bg-themebg text-themetext p-4 md:p-8 antialiased selection:bg-themeaccent selection:text-themebtntext transition-colors duration-500">
 
-    <div id="authGate" class="max-w-md mx-auto mt-20 bg-themepanel p-8 rounded-2xl border border-themeborder shadow-[0_0_50px_rgba(0,0,0,0.5)] text-center relative overflow-hidden flex flex-col items-center">
+    <!-- SUPABASE EMAIL/PASSWORD LOGIN GATE -->
+    <div id="authGate" class="max-w-md mx-auto mt-20 bg-themepanel p-8 rounded-2xl border border-themeborder shadow-[0_0_50px_rgba(0,0,0,0.5)] text-center relative overflow-hidden flex flex-col items-center hidden">
         <div class="absolute top-0 left-0 w-full h-1 bg-themeaccent"></div>
-        <img src="assets/tc-logo.png" alt="Corporate Logo" class="h-12 mb-4" onerror="this.style.display='none'">
-        <h2 class="text-2xl font-black uppercase tracking-widest text-themetext mb-2">Pave Ops Access</h2>
-        <p class="text-thememuted mb-6 text-sm">Enter your enterprise license key to unlock the environment.</p>
-        <input type="text" id="licenseKey" placeholder="XXXX-XXXX-XXXX-XXXX" class="w-full bg-themeinput border border-themeborder rounded-xl p-4 text-themeaccent text-center font-code tracking-widest mb-6 focus:ring-2 focus:ring-themeaccent outline-none shadow-inner transition-all">
-        <button id="verifyBtn" class="w-full bg-themeaccent hover:bg-themehover text-themebtntext font-black tracking-widest uppercase py-4 px-4 rounded-xl transition-all shadow-[0_0_20px_rgba(31,157,134,0.4)]">Verify & Unlock</button>
-        <p id="authError" class="text-rose-500 font-code text-xs mt-4 hidden uppercase tracking-wide">Invalid or Refunded License Key.</p>
+        <img src="assets/ss-logo.png" alt="Stefanutti Stocks Logo" class="h-12 mb-4" onerror="this.style.display='none'">
+        <h2 class="text-xl font-black uppercase tracking-wider text-themetext mb-2">Stefanutti Stocks Coastal</h2>
+        <p class="text-thememuted mb-6 text-xs uppercase tracking-widest">Pave Ops Infrastructure Login</p>
+        
+        <div class="w-full text-left space-y-4 mb-6">
+            <div>
+                <label class="block text-[10px] font-code uppercase tracking-widest text-thememuted mb-1">Corporate Email</label>
+                <input type="email" id="authEmail" placeholder="user@stefanuttistocks.com" class="w-full bg-themeinput border border-themeborder rounded-xl p-3 text-themetext font-code focus:ring-2 focus:ring-themeaccent outline-none transition-all">
+            </div>
+            <div>
+                <label class="block text-[10px] font-code uppercase tracking-widest text-thememuted mb-1">Password</label>
+                <input type="password" id="authPassword" placeholder="••••••••" class="w-full bg-themeinput border border-themeborder rounded-xl p-3 text-themetext font-code focus:ring-2 focus:ring-themeaccent outline-none transition-all">
+            </div>
+        </div>
+
+        <button id="loginBtn" class="w-full bg-themeaccent hover:bg-themehover text-themebtntext font-black tracking-widest uppercase py-4 px-4 rounded-xl transition-all shadow-[0_0_20px_rgba(234,179,8,0.2)]">Sign In</button>
+        <p id="authError" class="text-rose-500 font-code text-xs mt-4 hidden uppercase tracking-wide">Invalid Credentials.</p>
     </div>
 
+    <!-- MAIN APP WRAPPER -->
     <div id="appInterface" class="max-w-3xl mx-auto hidden pb-10">
         
         <div class="mb-8 flex flex-col justify-center items-center border-b border-themeborder pb-6 gap-2 text-center relative">
-            <img src="assets/tc-logo.png" alt="Corporate Logo" class="h-10 mb-2" onerror="this.style.display='none'">
-            <h1 class="text-2xl md:text-3xl font-black uppercase tracking-tighter text-themetext drop-shadow-md">
-                Pave<span class="text-themeaccent">Ops</span> Engine
-            </h1>
+            <img src="assets/ss-logo.png" alt="Stefanutti Stocks Logo" class="h-10 mb-2" onerror="this.style.display='none'">
+            <div class="flex justify-between w-full items-center max-w-md px-4 md:px-0">
+                <h1 class="text-xl font-black uppercase tracking-tighter text-themetext drop-shadow-md text-left">
+                    Pave<span class="text-themeaccent">Ops</span> Engine
+                </h1>
+                <button id="signOutBtn" class="text-[10px] font-code uppercase tracking-widest border border-themeborder rounded px-2 py-1 text-rose-500 hover:bg-rose-950/30">Sign Out</button>
+            </div>
         </div>
 
         <div class="bg-themepanel p-5 md:p-8 rounded-2xl border border-themeborder mb-6 shadow-xl relative overflow-hidden">
@@ -118,7 +135,7 @@
             <canvas id="preview" class="hidden"></canvas>
             
             <div class="flex flex-col gap-3">
-                <button id="openInApp" class="w-full bg-themeaccent hover:bg-themehover text-themebtntext font-black uppercase tracking-widest py-4 rounded-xl transition-all shadow-[0_0_15px_rgba(31,157,134,0.3)]">Initialize Scanner</button>
+                <button id="openInApp" class="w-full bg-themeaccent hover:bg-themehover text-themebtntext font-black uppercase tracking-widest py-4 rounded-xl transition-all shadow-[0_0_15px_rgba(234,179,8,0.2)]">Initialize Scanner</button>
                 <button id="capture" class="hidden w-full bg-themeaccent hover:bg-themehover text-themebtntext font-black uppercase tracking-widest py-4 rounded-xl transition-all">Extract Note Data</button>
                 <button id="closeInApp" class="hidden w-full bg-transparent border border-themeborder text-themetext hover:bg-themeinput font-bold uppercase tracking-widest py-3 rounded-xl transition-all">Abort Scan</button>
             </div>
@@ -158,10 +175,11 @@
         </div>
         
         <div class="text-center mt-10 text-[10px] font-code text-thememuted uppercase tracking-widest">
-            Engineered by Titan Digital Labs
+            Stefanutti Stocks Coastal — Operations Infrastructure
         </div>
     </div>
 
+    <!-- MATHEMATICS MODAL -->
     <div id="mathModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-themepanel border border-themeborder p-6 md:p-8 rounded-2xl max-w-sm w-full shadow-[0_0_50px_rgba(0,0,0,0.5)] max-h-[90vh] flex flex-col relative overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-1 bg-themeaccent"></div>
@@ -227,99 +245,101 @@
                         </div>
                         <div>
                             <label class="block text-[10px] font-code uppercase text-thememuted mb-1">Reason / Comment</label>
-                            <input type="text" id="wastageReason" placeholder="e.g. Cold mix, rain, rejected" class="w-full bg-themeinput border border-themeborder rounded p-2 text-themetext font-code text-sm outline-none">
+                            <input type="text" id="wastageReason" placeholder="e.g. Cold mix, rejected at joint" class="w-full bg-themeinput border border-themeborder rounded p-2 text-themetext font-code text-sm outline-none">
                         </div>
                     </div>
                 </div>
                 
                 <div>
                     <label class="block text-[10px] font-code uppercase tracking-widest text-thememuted mb-2">Target BRD (t/m³)</label>
-                    <input type="number" id="inputDensity" step="0.01" class="w-full bg-themeinput border border-themeborder rounded-xl p-3 text-themeaccent font-code text-base focus:ring-2 focus:ring-themeaccent outline-none font-bold">
+                    <input type="number" id="inputDensity" step="0.01" class="w-full bg-themeinput border border-themeborder rounded-xl p-3 text-themeaccent font-code text-base focus:ring-2 focus:ring-themeaccent outline-none font-bold text-black">
                 </div>
             </div>
             
             <div class="flex gap-3 pt-4 border-t border-themeborder">
                 <button id="cancelModalBtn" class="flex-1 bg-transparent border border-themeborder text-themetext py-3 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-themeinput transition-colors">Discard</button>
-                <button id="calcAndSaveBtn" class="flex-1 bg-themeaccent text-themebtntext py-3 rounded-xl text-xs font-bold uppercase tracking-widest shadow-[0_0_15px_rgba(31,157,134,0.4)] hover:shadow-[0_0_25px_rgba(31,157,134,0.6)] transition-all">Log Data</button>
+                <button id="calcAndSaveBtn" class="flex-1 bg-themeaccent text-themebtntext py-3 rounded-xl text-xs font-bold uppercase tracking-widest shadow-[0_0_15px_rgba(234,179,8,0.3)] hover:shadow-[0_0_25px_rgba(234,179,8,0.5)] transition-all">Log Data</button>
             </div>
         </div>
     </div>
 
+    <!-- LOCAL DEPENDENCIES -->
     <script src="libs/jsqr.min.js"></script>
     <script src="libs/zxing.min.js"></script>
+    <!-- SUPABASE GLOBAL CLIENT CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
  
     <script>
     (function(){
-        // --- 1. SUPABASE INITIALIZATION & AUTHENTICATION ---
         const { createClient } = window.supabase;
         
-        // YOUR UNIQUE SUPABASE CREDENTIALS
         const supabaseUrl = "https://jasmugudntbpycpffgeo.supabase.co";
         const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imphc211Z3VkbnRicHljcGZmZ2VvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAzMTU5OTYsImV4cCI6MjA5NTg5MTk5Nn0.SY4l-sWHj6zTnQ2vfPgxheAmnUWpi65Hd8eLLMd_oJk";
         const supabase = createClient(supabaseUrl, supabaseKey);
         
         const authGate = document.getElementById('authGate');
         const appInterface = document.getElementById('appInterface');
-        const verifyBtn = document.getElementById('verifyBtn');
-        const licenseInput = document.getElementById('licenseKey');
+        const loginBtn = document.getElementById('loginBtn');
+        const signOutBtn = document.getElementById('signOutBtn');
+        const emailInput = document.getElementById('authEmail');
+        const passwordInput = document.getElementById('authPassword');
         const authError = document.getElementById('authError');
 
-        licenseInput.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') verifyLicense();
+        // Check auth session state on app initialize
+        async function checkInitialSession() {
+            const { data: { session }, error } = await supabase.auth.getSession();
+            if (session) {
+                showMainApplication();
+            } else {
+                authGate.classList.remove('hidden');
+            }
+        }
+        checkInitialSession();
+
+        loginBtn.addEventListener('click', executeLogin);
+        passwordInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') executeLogin(); });
+
+        async function executeLogin() {
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+            if(!email || !password) return;
+
+            loginBtn.innerText = "AUTHENTICATING...";
+            loginBtn.disabled = true;
+            authError.classList.add('hidden');
+
+            const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+            if (error) {
+                authError.innerText = error.message;
+                authError.classList.remove('hidden');
+                loginBtn.innerText = "Sign In";
+                loginBtn.disabled = false;
+            } else {
+                showMainApplication();
+            }
+        }
+
+        signOutBtn.addEventListener('click', async () => {
+            await supabase.auth.signOut();
+            appInterface.classList.add('hidden');
+            authGate.classList.remove('hidden');
+            emailInput.value = '';
+            passwordInput.value = '';
+            loginBtn.innerText = "Sign In";
+            loginBtn.disabled = false;
         });
 
-        // Check for existing valid local session
-        if(localStorage.getItem('tc_paveops_auth') === 'verified') {
+        function showMainApplication() {
             authGate.classList.add('hidden');
             appInterface.classList.remove('hidden');
             bootAppEngine();
         }
 
-        verifyBtn.addEventListener('click', verifyLicense);
-
-        async function verifyLicense() {
-            const key = licenseInput.value.trim();
-            if(!key) return;
-            
-            verifyBtn.innerText = "VERIFYING...";
-            verifyBtn.disabled = true;
-            authError.classList.add('hidden');
-
-            try {
-                // Query Supabase 'licenses' table to validate enterprise key
-                const { data, error } = await supabase
-                    .from('licenses')
-                    .select('*')
-                    .eq('license_key', key)
-                    .maybeSingle();
-
-                if (error) throw error;
-
-                if (data && !data.refunded && !data.expired) {
-                    localStorage.setItem('tc_paveops_auth', 'verified');
-                    authGate.classList.add('hidden');
-                    appInterface.classList.remove('hidden');
-                    bootAppEngine();
-                } else {
-                    authError.innerText = data && data.expired ? "Access Denied. Subscription Expired." : "Invalid or Refunded License Key.";
-                    authError.classList.remove('hidden');
-                    verifyBtn.innerText = "Verify & Unlock";
-                    verifyBtn.disabled = false;
-                }
-            } catch(e) {
-                authError.innerText = "Connection error or database issue.";
-                authError.classList.remove('hidden');
-                verifyBtn.innerText = "Verify & Unlock";
-                verifyBtn.disabled = false;
-            }
-        }
-
-        // --- 2. CORE APPLICATION ENGINE ---
+        // --- CORE APPLICATION ENGINE ---
         function bootAppEngine() {
             function uid() { return Date.now().toString(36) + Math.random().toString(36).substring(2); }
            
-            // Supabase Database Wrapper Functions (Replacing Local IndexedDB)
             async function idbPut(entry){ 
                 const { error } = await supabase.from('logs').insert([entry]);
                 if (error) console.error('Supabase Error (Insert):', error);
@@ -353,7 +373,6 @@
             const inputDensity = document.getElementById('inputDensity');
             const calcAndSaveBtn = document.getElementById('calcAndSaveBtn'); const cancelModalBtn = document.getElementById('cancelModalBtn');
 
-            // UI Toggle Listeners for Liability Gates
             const cutbackRadios = document.querySelectorAll('input[name="cutbackInc"]');
             const cutbackDimensions = document.getElementById('cutbackDimensions');
             cutbackRadios.forEach(radio => {
@@ -451,11 +470,7 @@
               document.querySelector('input[name="wastageOcc"][value="no"]').checked = true;
               cutbackDimensions.classList.add('hidden');
               wastageDetails.classList.add('hidden');
-              document.getElementById('cutLength').value = '';
-              document.getElementById('cutWidth').value = '';
-              document.getElementById('wastedMass').value = '';
-              document.getElementById('wastageReason').value = '';
-              
+
               inputDensity.value = globalDensity.value;
               mathModal.classList.remove('hidden'); 
               setStatus('SYSTEM READY. INPUT DIMENSIONS.', true);
@@ -474,30 +489,24 @@
 
                 let totalArea = length * width;
                 const cutbackIncluded = document.querySelector('input[name="cutbackInc"]:checked').value;
-                let cLen = 0, cWid = 0;
                 if(cutbackIncluded === 'no') {
-                    cLen = parseFloat(document.getElementById('cutLength').value) || 0;
-                    cWid = parseFloat(document.getElementById('cutWidth').value) || 0;
+                    const cLen = parseFloat(document.getElementById('cutLength').value) || 0;
+                    const cWid = parseFloat(document.getElementById('cutWidth').value) || 0;
                     totalArea += (cLen * cWid);
                 }
 
                 let effectiveMass = totalMassTonnes;
                 const wastageOccurred = document.querySelector('input[name="wastageOcc"]:checked').value;
-                let wMass = 0;
-                let wReason = "";
+                let wMass = 0; let wReason = "";
                 if(wastageOccurred === 'yes') {
                     wMass = parseFloat(document.getElementById('wastedMass').value) || 0;
                     wReason = document.getElementById('wastageReason').value.trim() || "No reason provided";
                     effectiveMass -= wMass;
                 }
 
-                if(totalMassTonnes <= 0 || totalArea <= 0 || brd <= 0) { 
-                    alert("SECURITY HALT: Primary dimensions and BRD must be greater than zero."); 
+                if(totalMassTonnes <= 0 || totalArea <= 0 || brd <= 0 || effectiveMass <= 0) { 
+                    alert("VALIDATION HALT: Parameters and Effective Mass must evaluate above zero."); 
                     return; 
-                }
-                if(effectiveMass <= 0) {
-                    alert("SECURITY HALT: Wasted mass cannot exceed or equal total delivered mass.");
-                    return;
                 }
 
                 const spreadRate = totalArea / effectiveMass; 
@@ -528,15 +537,6 @@
                 await renderLogs(); 
                 
                 mathModal.classList.add('hidden'); 
-                document.getElementById('cutLength').value = '';
-                document.getElementById('cutWidth').value = '';
-                document.getElementById('wastedMass').value = '';
-                document.getElementById('wastageReason').value = '';
-                document.querySelector('input[name="cutbackInc"][value="yes"]').checked = true;
-                document.querySelector('input[name="wastageOcc"][value="no"]').checked = true;
-                cutbackDimensions.classList.add('hidden');
-                wastageDetails.classList.add('hidden');
-
                 setStatus(`LOGGED TICKET ${entry.truck}`, true);
             });
          
@@ -558,31 +558,14 @@
             cameraInput.addEventListener('change', async ev=>{ const f = ev.target.files && ev.target.files[0]; if(!f) return; setStatus('DECRYPTING TICKET...', true); const text = await decodeCanvasOrBlob(f); if(text) await handleDecodedText(text); else setStatus('SCAN FAILED. RETRY.', false); cameraInput.value = ''; });
          
             function logsToCSV(rows){
-              const header = ['Scan Date','Scan Time','Company','Client','Registration','Mix Type','Ticket','Total Delivered Mass (t)','Wasted Mass (t)','Effective Paved Mass (t)','Paved Length (m)','Paved Width (m)','Total Area (m2)','Spread Rate (m2/t)','Target BRD (t/m3)','Est. Thickness (mm)', 'Cutback Additions', 'Wastage Reason']; 
+              const header = ['Scan Date','Scan Time','Company','Client','Registration','Mix Type','Ticket','Total Mass (t)','Wasted Mass (t)','Effective Mass (t)','Length (m)','Width (m)','Area (m2)','Spread Rate (m2/t)','Target BRD','Thickness (mm)', 'Cutback Included', 'Wastage Comment']; 
               const lines = [header.join(',')];
               rows.forEach(r=>{ 
                   const dateObj = new Date(r.t); 
-                  const dateStr = dateObj.toLocaleDateString(); 
-                  const timeStr = dateObj.toLocaleTimeString(); 
                   lines.push([ 
-                      dateStr, 
-                      timeStr, 
-                      r.company, 
-                      r.customer, 
-                      r.registration, 
-                      r.material, 
-                      r.truck, 
-                      r.tonnage.toFixed(2), 
-                      r.wastageMass ? r.wastageMass.toFixed(2) : "0.00",
-                      r.effectiveMass ? r.effectiveMass.toFixed(2) : r.tonnage.toFixed(2),
-                      r.length.toFixed(2), 
-                      r.width.toFixed(2), 
-                      r.area.toFixed(2), 
-                      r.spreadRate.toFixed(2), 
-                      r.density.toFixed(2), 
-                      r.thickness.toFixed(2),
-                      r.cutbackAdded || "No",
-                      r.wastageReason || "N/A"
+                      dateObj.toLocaleDateString(), dateObj.toLocaleTimeString(), r.company, r.customer, r.registration, r.material, r.truck, r.tonnage.toFixed(2), 
+                      r.wastageMass ? r.wastageMass.toFixed(2) : "0.00", r.effectiveMass ? r.effectiveMass.toFixed(2) : r.tonnage.toFixed(2),
+                      r.length.toFixed(2), r.width.toFixed(2), r.area.toFixed(2), r.spreadRate.toFixed(2), r.density.toFixed(2), r.thickness.toFixed(2), r.cutbackAdded || "No", r.wastageReason || "N/A"
                   ].map(v => '"' + String(v).replace(/"/g,'""') + '"').join(',')); 
               }); 
               return lines.join('\n');
@@ -590,17 +573,11 @@
          
             function downloadBlob(filename, blob){ const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url); }
          
-            downloadDateBtn.addEventListener('click', async ()=>{ const date = exportDateInput.value; if(!date) return alert('Engine Error: Select Date First'); const logs = (await idbGetAll()).filter(l => l.t.slice(0,10) === date); if(!logs.length) return alert('No data for ' + date); downloadBlob(`TC_PaveOps_Report_${date}.csv`, new Blob([logsToCSV(logs)], {type:'text/csv'})); setStatus('REPORT EXPORTED', true); });
+            downloadDateBtn.addEventListener('click', async ()=>{ const date = exportDateInput.value; if(!date) return alert('Engine Error: Select Date First'); const logs = (await idbGetAll()).filter(l => l.t.slice(0,10) === date); if(!logs.length) return alert('No data for ' + date); downloadBlob(`SS_Coastal_PaveOps_${date}.csv`, new Blob([logsToCSV(logs)], {type:'text/csv'})); setStatus('REPORT EXPORTED', true); });
             clearAllBtn.addEventListener('click', async ()=>{ 
-                if(confirm('WARNING: Are you sure you want to permanently format the Ledger?')){ 
+                if(confirm('WARNING: Permanently wipe the database Ledger?')){ 
                     const { error } = await supabase.from('logs').delete().neq('id', '_none_');
-                    if (error) {
-                        console.error('Supabase Error (Clear All):', error);
-                        alert('Could not clear remote records. Check console.');
-                    } else {
-                        await renderLogs(); 
-                        setStatus('LEDGER FORMATTED', false); 
-                    }
+                    if (!error) { await renderLogs(); setStatus('LEDGER CLEAR', false); }
                 } 
             });
          
