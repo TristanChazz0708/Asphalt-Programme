@@ -1,9 +1,21 @@
 {
-  "name": "Ten Civils Pacing Engine",
-  "short_name": "Pacing Engine",
-  "start_url": "./",
+  "short_name": "SS PaveOps",
+  "name": "Stefanutti Stocks Coastal Pave Ops Engine",
+  "icons": [
+    {
+      "src": "assets/ss-logo.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "assets/ss-logo.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "./index.html",
+  "background_color": "#151b22",
+  "theme_color": "#151b22",
   "display": "standalone",
-  "orientation": "portrait",
-  "background_color": "#020617",
-  "theme_color": "#020617"
+  "orientation": "portrait"
 }
