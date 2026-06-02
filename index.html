@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Stefanutti Stocks Coastal | Pave Ops</title>
-    <meta name="theme-color" content="#151b22">
+    <meta name="theme-color" content="#00377c">
     <link rel="manifest" href="manifest.json">
     
     <!-- DOMAIN LOCK SECURITY -->
@@ -21,7 +21,7 @@
             const isAllowed = allowedDomains.some(domain => currentDomain.includes(domain));
             if (!isAllowed) {
                 window.stop(); 
-                document.documentElement.innerHTML = "<head><title>Access Denied</title></head><body style='background:#151b22; color:#e11d48; display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; font-family:sans-serif; margin:0; text-align:center; padding:20px;'><h1 style='font-weight:900; letter-spacing:2px; text-transform:uppercase;'>Security Breach:<br>Unauthorized Host</h1><p style='color:#f8fafc; margin-top:10px;'>This software is locked to Stefanutti Stocks infrastructure. Access Denied.</p></body>";
+                document.documentElement.innerHTML = "<head><title>Access Denied</title></head><body style='background:#020c1b; color:#e11d48; display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; font-family:sans-serif; margin:0; text-align:center; padding:20px;'><h1 style='font-weight:900; letter-spacing:2px; text-transform:uppercase;'>Security Breach:<br>Unauthorized Host</h1><p style='color:#f8fafc; margin-top:10px;'>This software is locked to Stefanutti Stocks infrastructure. Access Denied.</p></body>";
                 throw new Error("Security Override: Execution Halted.");
             }
         })();
@@ -58,21 +58,22 @@
         ::-webkit-scrollbar-track { background: var(--bg-app); }
         ::-webkit-scrollbar-thumb { background: var(--theme-accent); border-radius: 10px; }
 
+        /* BRAND PALETTE ADAPTATION */
         :root {
-            --bg-app: #151b22; 
-            --bg-panel: #1e2630; 
-            --bg-input: #0d1117; 
-            --border-color: #2d3745; 
-            --text-main: #f8fafc; 
-            --text-muted: #94a3b8; 
-            --theme-accent: #eab308; /* Updated to gold/yellow accent for Stefanutti brand feel */
+            --bg-app: #020c1b;          /* Premium Deep Navy-Black */
+            --bg-panel: #00377c;        /* STEFANUTTI STOCKS CORPORATE BLUE */
+            --bg-input: #00224d;        /* Secondary Dark Blue Contrast */
+            --border-color: #004b9e;    /* Clean Structural Blue Borders */
+            --text-main: #f8fafc;       /* Crisp White Text */
+            --text-muted: #94a3b8;      /* Slate Muted Text */
+            --theme-accent: #f7c505;    /* STEFANUTTI STOCKS CORPORATE GOLD */
             --theme-accent-hover: #ca8a04; 
-            --btn-text: #000000;
+            --btn-text: #000000;        /* High-Contrast Black Text on Gold Elements */
         }
 
         .camera-square { width: 100%; padding-top: 100%; position: relative; overflow: hidden; border-radius: 12px; background: #000; border: 1px solid var(--border-color); }
         .camera-square video { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: auto; height: 100%; min-width: 100%; min-height: 100%; object-fit: cover; }
-        .finder { position: absolute; top: 50%; left: 50%; width: 70%; height: 70%; transform: translate(-50%,-50%); box-sizing: border-box; pointer-events: none; border: 2px solid rgba(234, 179, 8, 0.5); border-radius: 6px; box-shadow: 0 0 0 9999px rgba(0,0,0,0.6) inset; }
+        .finder { position: absolute; top: 50%; left: 50%; width: 70%; height: 70%; transform: translate(-50%,-50%); box-sizing: border-box; pointer-events: none; border: 2px solid rgba(247, 197, 5, 0.5); border-radius: 6px; box-shadow: 0 0 0 9999px rgba(0,0,0,0.6) inset; }
         .finder::before, .finder::after, .finder span::before, .finder span::after { content: ""; position: absolute; background: var(--theme-accent); border-radius: 2px; }
         .finder::before { top: -2px; left: -2px; width: 28px; height: 4px; }
         .finder::after { bottom: -2px; right: -2px; width: 28px; height: 4px; }
@@ -82,29 +83,29 @@
 </head>
 <body class="bg-themebg text-themetext p-4 md:p-8 antialiased selection:bg-themeaccent selection:text-themebtntext transition-colors duration-500">
 
-    <!-- SUPABASE EMAIL/PASSWORD LOGIN GATE -->
-    <div id="authGate" class="max-w-md mx-auto mt-20 bg-themepanel p-8 rounded-2xl border border-themeborder shadow-[0_0_50px_rgba(0,0,0,0.5)] text-center relative overflow-hidden flex flex-col items-center hidden">
+    <!-- AUTHENTICATION GATE -->
+    <div id="authGate" class="max-w-md mx-auto mt-20 bg-themepanel p-8 rounded-2xl border border-themeborder shadow-[0_0_50px_rgba(0,0,0,0.6)] text-center relative overflow-hidden flex flex-col items-center hidden">
         <div class="absolute top-0 left-0 w-full h-1 bg-themeaccent"></div>
         <img src="assets/ss-logo.png" alt="Stefanutti Stocks Logo" class="h-12 mb-4" onerror="this.style.display='none'">
         <h2 class="text-xl font-black uppercase tracking-wider text-themetext mb-2">Stefanutti Stocks Coastal</h2>
-        <p class="text-thememuted mb-6 text-xs uppercase tracking-widest">Pave Ops Infrastructure Login</p>
+        <p class="text-themeaccent mb-6 text-xs font-code uppercase tracking-widest font-bold">Pave Ops Infrastructure Login</p>
         
         <div class="w-full text-left space-y-4 mb-6">
             <div>
-                <label class="block text-[10px] font-code uppercase tracking-widest text-thememuted mb-1">Corporate Email</label>
+                <label class="block text-[10px] font-code uppercase tracking-widest text-white/70 mb-1">Corporate Email</label>
                 <input type="email" id="authEmail" placeholder="user@stefanuttistocks.com" class="w-full bg-themeinput border border-themeborder rounded-xl p-3 text-themetext font-code focus:ring-2 focus:ring-themeaccent outline-none transition-all">
             </div>
             <div>
-                <label class="block text-[10px] font-code uppercase tracking-widest text-thememuted mb-1">Password</label>
+                <label class="block text-[10px] font-code uppercase tracking-widest text-white/70 mb-1">Password</label>
                 <input type="password" id="authPassword" placeholder="••••••••" class="w-full bg-themeinput border border-themeborder rounded-xl p-3 text-themetext font-code focus:ring-2 focus:ring-themeaccent outline-none transition-all">
             </div>
         </div>
 
-        <button id="loginBtn" class="w-full bg-themeaccent hover:bg-themehover text-themebtntext font-black tracking-widest uppercase py-4 px-4 rounded-xl transition-all shadow-[0_0_20px_rgba(234,179,8,0.2)]">Sign In</button>
-        <p id="authError" class="text-rose-500 font-code text-xs mt-4 hidden uppercase tracking-wide">Invalid Credentials.</p>
+        <button id="loginBtn" class="w-full bg-themeaccent hover:bg-themehover text-themebtntext font-black tracking-widest uppercase py-4 px-4 rounded-xl transition-all shadow-[0_0_20px_rgba(247,197,5,0.3)]">Sign In</button>
+        <p id="authError" class="text-rose-400 font-code text-xs mt-4 hidden uppercase tracking-wide bg-black/40 py-2 px-3 rounded border border-rose-900/50">Invalid Credentials.</p>
     </div>
 
-    <!-- MAIN APP WRAPPER -->
+    <!-- MAIN APP INTERFACE -->
     <div id="appInterface" class="max-w-3xl mx-auto hidden pb-10">
         
         <div class="mb-8 flex flex-col justify-center items-center border-b border-themeborder pb-6 gap-2 text-center relative">
@@ -113,17 +114,18 @@
                 <h1 class="text-xl font-black uppercase tracking-tighter text-themetext drop-shadow-md text-left">
                     Pave<span class="text-themeaccent">Ops</span> Engine
                 </h1>
-                <button id="signOutBtn" class="text-[10px] font-code uppercase tracking-widest border border-themeborder rounded px-2 py-1 text-rose-500 hover:bg-rose-950/30">Sign Out</button>
+                <button id="signOutBtn" class="text-[10px] font-code uppercase tracking-widest border border-themeborder rounded px-2 py-1 bg-themeinput text-rose-400 hover:bg-rose-950/30 transition-all">Sign Out</button>
             </div>
         </div>
 
+        <!-- TICKET INGESTION PANEL -->
         <div class="bg-themepanel p-5 md:p-8 rounded-2xl border border-themeborder mb-6 shadow-xl relative overflow-hidden">
-            <div class="absolute top-0 left-0 w-1 h-full bg-themeborder"></div>
+            <div class="absolute top-0 left-0 w-1 h-full bg-themeaccent"></div>
             <h2 class="text-sm font-black uppercase tracking-widest mb-4 text-themetext flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-thememuted animate-pulse" id="scannerIndicator"></span> Ticket Ingestion
+                <span class="w-2 h-2 rounded-full bg-themeinput animate-pulse" id="scannerIndicator"></span> Ticket Ingestion
             </h2>
             
-            <div id="status" class="text-xs font-code uppercase text-themeaccent mb-6 text-center tracking-widest">SYSTEM IDLE — AWAITING CAMERA</div>
+            <div id="status" class="text-xs font-code uppercase text-themeaccent mb-6 text-center tracking-widest bg-black/30 py-2 rounded border border-themeborder/40">SYSTEM IDLE — AWAITING CAMERA</div>
             
             <div class="camera-wrap hidden mb-6 max-w-sm mx-auto" id="cameraWrap">
                 <div class="camera-square" id="cameraSquare">
@@ -135,76 +137,77 @@
             <canvas id="preview" class="hidden"></canvas>
             
             <div class="flex flex-col gap-3">
-                <button id="openInApp" class="w-full bg-themeaccent hover:bg-themehover text-themebtntext font-black uppercase tracking-widest py-4 rounded-xl transition-all shadow-[0_0_15px_rgba(234,179,8,0.2)]">Initialize Scanner</button>
+                <button id="openInApp" class="w-full bg-themeaccent hover:bg-themehover text-themebtntext font-black uppercase tracking-widest py-4 rounded-xl transition-all shadow-[0_0_15px_rgba(247,197,5,0.2)]">Initialize Scanner</button>
                 <button id="capture" class="hidden w-full bg-themeaccent hover:bg-themehover text-themebtntext font-black uppercase tracking-widest py-4 rounded-xl transition-all">Extract Note Data</button>
                 <button id="closeInApp" class="hidden w-full bg-transparent border border-themeborder text-themetext hover:bg-themeinput font-bold uppercase tracking-widest py-3 rounded-xl transition-all">Abort Scan</button>
             </div>
             
-            <div class="mt-6 pt-6 border-t border-themeborder">
-                <button id="openNative" class="w-full bg-themeinput border border-themeborder text-thememuted hover:text-themetext hover:border-themeaccent font-bold uppercase tracking-widest py-3 rounded-xl transition-all text-xs">Upload Ticket Image</button>
+            <div class="mt-6 pt-6 border-t border-themeborder/60">
+                <button id="openNative" class="w-full bg-themeinput border border-themeborder text-white/60 hover:text-themetext hover:border-themeaccent font-bold uppercase tracking-widest py-3 rounded-xl transition-all text-xs">Upload Ticket Image</button>
             </div>
             <input id="cameraInput" type="file" accept="image/*" capture="environment" class="hidden">
         </div>
 
+        <!-- SHIFT LEDGER PANEL -->
         <div class="bg-themepanel p-5 md:p-8 rounded-2xl border border-themeborder shadow-xl relative overflow-hidden">
             <div class="absolute top-0 left-0 w-1 h-full bg-themeaccent opacity-50"></div>
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-sm font-black uppercase tracking-widest text-themetext flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-themeaccent opacity-50"></span> Shift Ledger
+                    <span class="w-2 h-2 rounded-full bg-themeaccent"></span> Shift Ledger
                 </h2>
-                <span class="bg-themeinput border border-themeborder px-3 py-1 rounded-full text-xs font-code text-themeaccent" id="count">0</span>
+                <span class="bg-themeinput border border-themeborder px-3 py-1 rounded-full text-xs font-code text-themeaccent font-bold" id="count">0</span>
             </div>
 
             <div class="mb-6 p-4 bg-themeinput rounded-xl border border-themeborder">
-                <label class="block text-[10px] font-code uppercase tracking-widest text-thememuted mb-2">Default Shift Target BRD (t/m³)</label>
+                <label class="block text-[10px] font-code uppercase tracking-widest text-white/60 mb-2">Default Shift Target BRD (t/m³)</label>
                 <input type="number" id="globalDensity" step="0.01" class="w-full bg-themepanel border border-themeborder rounded-xl p-3 text-themeaccent font-code text-lg focus:ring-2 focus:ring-themeaccent outline-none transition-all text-center font-bold">
             </div>
 
             <div id="logList" class="space-y-4 max-h-96 overflow-y-auto pr-2 mb-6"></div>
 
-            <div class="mt-6 pt-6 border-t border-themeborder grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="mt-6 pt-6 border-t border-themeborder/60 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="flex flex-col gap-2">
-                    <label class="text-[10px] font-code uppercase tracking-widest text-thememuted">Export Date</label>
+                    <label class="text-[10px] font-code uppercase tracking-widest text-white/60">Export Date</label>
                     <input id="exportDate" type="date" class="w-full bg-themeinput border border-themeborder rounded-xl p-3 text-themetext font-code text-sm focus:ring-2 focus:ring-themeaccent outline-none color-scheme-dark">
                     <button id="downloadDate" class="bg-transparent border border-themeborder text-themetext hover:bg-themeinput font-bold uppercase tracking-widest py-3 rounded-xl transition-all text-xs">Download CSV</button>
                 </div>
                 <div class="flex flex-col justify-end">
-                    <button id="clearAll" class="bg-rose-950/30 border border-rose-900 text-rose-500 hover:bg-rose-900/50 font-bold uppercase tracking-widest py-3 rounded-xl transition-all text-xs mt-2">Clear Ledger</button>
+                    <button id="clearAll" class="bg-rose-950/30 border border-rose-900 text-rose-400 hover:bg-rose-900/50 font-bold uppercase tracking-widest py-3 rounded-xl transition-all text-xs mt-2">Clear Ledger</button>
                 </div>
             </div>
         </div>
         
-        <div class="text-center mt-10 text-[10px] font-code text-thememuted uppercase tracking-widest">
+        <div class="text-center mt-10 text-[10px] font-code text-white/40 uppercase tracking-widest">
             Stefanutti Stocks Coastal — Operations Infrastructure
         </div>
     </div>
 
-    <!-- MATHEMATICS MODAL -->
+    <!-- CALCULATIONS MODAL -->
     <div id="mathModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-themepanel border border-themeborder p-6 md:p-8 rounded-2xl max-w-sm w-full shadow-[0_0_50px_rgba(0,0,0,0.5)] max-h-[90vh] flex flex-col relative overflow-hidden">
+        <div class="bg-themepanel border border-themeborder p-6 md:p-8 rounded-2xl max-w-sm w-full shadow-[0_0_50px_rgba(0,0,0,0.7)] max-h-[90vh] flex flex-col relative overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-1 bg-themeaccent"></div>
             <h3 class="text-xl font-black uppercase tracking-widest text-themetext mb-6">COTO 2020 Engine</h3>
             
             <div class="flex flex-col gap-4 overflow-y-auto pr-2 pb-4">
                 <div class="bg-themeinput p-4 rounded-xl border border-themeborder">
-                    <label class="block text-[10px] font-code uppercase tracking-widest text-thememuted mb-1">Extracted Mass (Tonnes)</label>
-                    <div class="text-2xl font-black text-themetext font-code" id="modalMass">0.00</div>
+                    <label class="block text-[10px] font-code uppercase tracking-widest text-white/60 mb-1">Extracted Mass (Tonnes)</label>
+                    <div class="text-2xl font-black text-themeaccent font-code" id="modalMass">0.00</div>
                     <input type="hidden" id="rawMassVal"><input type="hidden" id="rawTicketVal"><input type="hidden" id="rawMixVal"><input type="hidden" id="rawCompanyVal"><input type="hidden" id="rawCustomerVal"><input type="hidden" id="rawRegVal">
                 </div>
 
                 <div>
-                    <label class="block text-[10px] font-code uppercase tracking-widest text-thememuted mb-2">Paved Length (m)</label>
+                    <label class="block text-[10px] font-code uppercase tracking-widest text-white/60 mb-2">Paved Length (m)</label>
                     <input type="number" id="inputLength" placeholder="e.g. 50" step="0.1" class="w-full bg-themeinput border border-themeborder rounded-xl p-3 text-themetext font-code text-base focus:ring-2 focus:ring-themeaccent outline-none">
                 </div>
 
                 <div>
-                    <label class="block text-[10px] font-code uppercase tracking-widest text-thememuted mb-2">Paved Width (m)</label>
+                    <label class="block text-[10px] font-code uppercase tracking-widest text-white/60 mb-2">Paved Width (m)</label>
                     <input type="number" id="inputWidth" placeholder="e.g. 3.5" step="0.1" class="w-full bg-themeinput border border-themeborder rounded-xl p-3 text-themetext font-code text-base focus:ring-2 focus:ring-themeaccent outline-none">
                 </div>
                 
-                <div class="bg-amber-950/20 border border-amber-900/50 p-4 rounded-xl mt-2 space-y-4">
+                <div class="bg-black/30 border border-themeborder p-4 rounded-xl mt-2 space-y-4">
                     <div>
-                        <label class="block text-[10px] font-code uppercase tracking-widest text-amber-500 mb-2 font-bold">Are Cutbacks included in main dimensions?</label>
+                        <label class="block text-[10px] font-code uppercase tracking-widest text-themeaccent mb-2 font-bold">Are Cutbacks included in main dimensions?</label>
                         <div class="flex gap-4">
                             <label class="flex items-center gap-2 cursor-pointer text-xs text-themetext">
                                 <input type="radio" name="cutbackInc" value="yes" class="accent-amber-500" checked> Yes
@@ -215,19 +218,19 @@
                         </div>
                     </div>
                     
-                    <div id="cutbackDimensions" class="hidden grid grid-cols-2 gap-3 pt-2 border-t border-amber-900/30">
+                    <div id="cutbackDimensions" class="hidden grid grid-cols-2 gap-3 pt-2 border-t border-themeborder/40">
                         <div>
-                            <label class="block text-[10px] font-code uppercase text-thememuted mb-1">Cut Length (m)</label>
+                            <label class="block text-[10px] font-code uppercase text-white/60 mb-1">Cut Length (m)</label>
                             <input type="number" id="cutLength" step="0.1" class="w-full bg-themeinput border border-themeborder rounded p-2 text-themetext font-code text-sm outline-none">
                         </div>
                         <div>
-                            <label class="block text-[10px] font-code uppercase text-thememuted mb-1">Cut Width (m)</label>
+                            <label class="block text-[10px] font-code uppercase text-white/60 mb-1">Cut Width (m)</label>
                             <input type="number" id="cutWidth" step="0.1" class="w-full bg-themeinput border border-themeborder rounded p-2 text-themetext font-code text-sm outline-none">
                         </div>
                     </div>
 
-                    <div class="pt-2 border-t border-amber-900/30">
-                        <label class="block text-[10px] font-code uppercase tracking-widest text-amber-500 mb-2 font-bold">Was there any material wastage?</label>
+                    <div class="pt-2 border-t border-themeborder/40">
+                        <label class="block text-[10px] font-code uppercase tracking-widest text-themeaccent mb-2 font-bold">Was there any material wastage?</label>
                         <div class="flex gap-4">
                             <label class="flex items-center gap-2 cursor-pointer text-xs text-themetext">
                                 <input type="radio" name="wastageOcc" value="no" class="accent-amber-500" checked> No
@@ -238,35 +241,34 @@
                         </div>
                     </div>
 
-                    <div id="wastageDetails" class="hidden space-y-3 pt-2 border-t border-amber-900/30">
+                    <div id="wastageDetails" class="hidden space-y-3 pt-2 border-t border-themeborder/40">
                         <div>
-                            <label class="block text-[10px] font-code uppercase text-rose-500 mb-1">Wasted Mass (Tonnes)</label>
-                            <input type="number" id="wastedMass" step="0.1" class="w-full bg-themeinput border border-rose-900/50 rounded p-2 text-rose-500 font-code text-sm outline-none">
+                            <label class="block text-[10px] font-code uppercase text-rose-400 mb-1">Wasted Mass (Tonnes)</label>
+                            <input type="number" id="wastedMass" step="0.1" class="w-full bg-themeinput border border-rose-900/50 rounded p-2 text-rose-400 font-code text-sm outline-none">
                         </div>
                         <div>
-                            <label class="block text-[10px] font-code uppercase text-thememuted mb-1">Reason / Comment</label>
-                            <input type="text" id="wastageReason" placeholder="e.g. Cold mix, rejected at joint" class="w-full bg-themeinput border border-themeborder rounded p-2 text-themetext font-code text-sm outline-none">
+                            <label class="block text-[10px] font-code uppercase text-white/60 mb-1">Reason / Comment</label>
+                            <input type="text" id="wastageReason" placeholder="e.g. Cold mix chunk layout reject" class="w-full bg-themeinput border border-themeborder rounded p-2 text-themetext font-code text-sm outline-none">
                         </div>
                     </div>
                 </div>
                 
                 <div>
-                    <label class="block text-[10px] font-code uppercase tracking-widest text-thememuted mb-2">Target BRD (t/m³)</label>
-                    <input type="number" id="inputDensity" step="0.01" class="w-full bg-themeinput border border-themeborder rounded-xl p-3 text-themeaccent font-code text-base focus:ring-2 focus:ring-themeaccent outline-none font-bold text-black">
+                    <label class="block text-[10px] font-code uppercase tracking-widest text-white/60 mb-2">Target BRD (t/m³)</label>
+                    <input type="number" id="inputDensity" step="0.01" class="w-full bg-themeinput border border-themeborder rounded-xl p-3 text-themeaccent font-code text-base focus:ring-2 focus:ring-themeaccent outline-none font-bold">
                 </div>
             </div>
             
             <div class="flex gap-3 pt-4 border-t border-themeborder">
                 <button id="cancelModalBtn" class="flex-1 bg-transparent border border-themeborder text-themetext py-3 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-themeinput transition-colors">Discard</button>
-                <button id="calcAndSaveBtn" class="flex-1 bg-themeaccent text-themebtntext py-3 rounded-xl text-xs font-bold uppercase tracking-widest shadow-[0_0_15px_rgba(234,179,8,0.3)] hover:shadow-[0_0_25px_rgba(234,179,8,0.5)] transition-all">Log Data</button>
+                <button id="calcAndSaveBtn" class="flex-1 bg-themeaccent text-themebtntext py-3 rounded-xl text-xs font-bold uppercase tracking-widest shadow-[0_0_15px_rgba(247,197,5,0.3)] hover:shadow-[0_0_25px_rgba(247,197,5,0.5)] transition-all">Log Data</button>
             </div>
         </div>
     </div>
 
-    <!-- LOCAL DEPENDENCIES -->
+    <!-- SCRIPT DEPENDENCIES -->
     <script src="libs/jsqr.min.js"></script>
     <script src="libs/zxing.min.js"></script>
-    <!-- SUPABASE GLOBAL CLIENT CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
  
     <script>
@@ -285,14 +287,9 @@
         const passwordInput = document.getElementById('authPassword');
         const authError = document.getElementById('authError');
 
-        // Check auth session state on app initialize
         async function checkInitialSession() {
             const { data: { session }, error } = await supabase.auth.getSession();
-            if (session) {
-                showMainApplication();
-            } else {
-                authGate.classList.remove('hidden');
-            }
+            if (session) { showMainApplication(); } else { authGate.classList.remove('hidden'); }
         }
         checkInitialSession();
 
@@ -300,59 +297,29 @@
         passwordInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') executeLogin(); });
 
         async function executeLogin() {
-            const email = emailInput.value.trim();
-            const password = passwordInput.value;
+            const email = emailInput.value.trim(); const password = passwordInput.value;
             if(!email || !password) return;
-
-            loginBtn.innerText = "AUTHENTICATING...";
-            loginBtn.disabled = true;
-            authError.classList.add('hidden');
-
+            loginBtn.innerText = "AUTHENTICATING..."; loginBtn.disabled = true; authError.classList.add('hidden');
             const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-
             if (error) {
-                authError.innerText = error.message;
-                authError.classList.remove('hidden');
-                loginBtn.innerText = "Sign In";
-                loginBtn.disabled = false;
-            } else {
-                showMainApplication();
-            }
+                authError.innerText = error.message; authError.classList.remove('hidden');
+                loginBtn.innerText = "Sign In"; loginBtn.disabled = false;
+            } else { showMainApplication(); }
         }
 
         signOutBtn.addEventListener('click', async () => {
             await supabase.auth.signOut();
-            appInterface.classList.add('hidden');
-            authGate.classList.remove('hidden');
-            emailInput.value = '';
-            passwordInput.value = '';
-            loginBtn.innerText = "Sign In";
-            loginBtn.disabled = false;
+            appInterface.classList.add('hidden'); authGate.classList.remove('hidden');
+            emailInput.value = ''; passwordInput.value = ''; loginBtn.innerText = "Sign In"; loginBtn.disabled = false;
         });
 
-        function showMainApplication() {
-            authGate.classList.add('hidden');
-            appInterface.classList.remove('hidden');
-            bootAppEngine();
-        }
+        function showMainApplication() { authGate.classList.add('hidden'); appInterface.classList.remove('hidden'); bootAppEngine(); }
 
-        // --- CORE APPLICATION ENGINE ---
         function bootAppEngine() {
             function uid() { return Date.now().toString(36) + Math.random().toString(36).substring(2); }
-           
-            async function idbPut(entry){ 
-                const { error } = await supabase.from('logs').insert([entry]);
-                if (error) console.error('Supabase Error (Insert):', error);
-            }
-            async function idbGetAll(){ 
-                const { data, error } = await supabase.from('logs').select('*');
-                if (error) { console.error('Supabase Error (Fetch):', error); return []; }
-                return data || [];
-            }
-            async function idbDelete(id){ 
-                const { error } = await supabase.from('logs').delete().eq('id', id);
-                if (error) console.error('Supabase Error (Delete):', error);
-            }
+            async function idbPut(entry){ const { error } = await supabase.from('logs').insert([entry]); if (error) console.error(error); }
+            async function idbGetAll(){ const { data, error } = await supabase.from('logs').select('*'); return error ? [] : (data || []); }
+            async function idbDelete(id){ await supabase.from('logs').delete().eq('id', id); }
          
             const video = document.getElementById('video'); const preview = document.getElementById('preview'); const status = document.getElementById('status');
             const openInApp = document.getElementById('openInApp'); const closeInApp = document.getElementById('closeInApp'); const captureBtn = document.getElementById('capture');
@@ -391,16 +358,16 @@
                 });
             });
          
-            if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js').catch(err=> console.warn('SW failed', err)); }
+            if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js').catch(err=> console.warn(err)); }
             
             function setStatus(txt, active = false){ 
                 status.textContent = txt; 
                 if(active) {
-                    status.classList.add('text-themeaccent'); status.classList.remove('text-thememuted');
-                    scannerIndicator.classList.add('bg-themeaccent'); scannerIndicator.classList.remove('bg-thememuted');
+                    status.classList.add('text-themeaccent'); status.classList.remove('text-white');
+                    scannerIndicator.classList.add('bg-themeaccent'); scannerIndicator.classList.remove('bg-themeinput');
                 } else {
-                    status.classList.remove('text-themeaccent'); status.classList.add('text-thememuted');
-                    scannerIndicator.classList.remove('bg-themeaccent'); scannerIndicator.classList.add('bg-thememuted');
+                    status.classList.remove('text-themeaccent'); status.classList.add('text-white');
+                    scannerIndicator.classList.remove('bg-themeaccent'); scannerIndicator.classList.add('bg-themeinput');
                 }
             }
          
@@ -411,19 +378,19 @@
                 card.className = 'bg-themeinput p-4 rounded-xl border border-themeborder hover:border-themeaccent transition-colors text-sm';
                 const dateObj = new Date(l.t); const scanTime = dateObj.toLocaleDateString() + ' ' + dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
                 card.innerHTML = `
-                  <div class="flex justify-between items-center border-b border-themeborder pb-2 mb-3">
+                  <div class="flex justify-between items-center border-b border-themeborder/40 pb-2 mb-3">
                       <div class="font-code text-[10px] text-themeaccent tracking-widest uppercase">Scanned: ${scanTime}</div>
-                      <button class="danger del-btn font-bold text-[10px] uppercase px-2 py-1 bg-rose-950/30 text-rose-500 rounded border border-rose-900" data-id="${l.id}">DEL</button>
+                      <button class="danger del-btn font-bold text-[10px] uppercase px-2 py-1 bg-rose-950/40 text-rose-400 rounded border border-rose-900/50" data-id="${l.id}">DEL</button>
                   </div>
                   <div class="grid grid-cols-2 gap-2 mb-3 font-code text-xs">
-                      <div><span class="text-thememuted">Co:</span> ${l.company}</div>
-                      <div><span class="text-thememuted">Tkt:</span> ${l.truck}</div>
-                      <div class="col-span-2"><span class="text-thememuted">Mix:</span> ${l.material}</div>
+                      <div><span class="text-white/60">Co:</span> ${l.company}</div>
+                      <div><span class="text-white/60">Tkt:</span> ${l.truck}</div>
+                      <div class="col-span-2"><span class="text-white/60">Mix:</span> ${l.material}</div>
                   </div>
-                  <div class="bg-themebg p-3 rounded-lg border border-themeborder flex justify-between items-center font-code text-xs">
-                      <div><span class="text-thememuted">Eff. Mass:</span> <br><span class="font-bold text-themetext">${parseFloat(l.effectiveMass || l.tonnage).toFixed(2)}t</span></div>
-                      <div><span class="text-thememuted">Rate:</span> <br><span class="font-bold text-themetext">${parseFloat(l.spreadRate).toFixed(2)} m²</span></div>
-                      <div class="text-right"><span class="text-themeaccent opacity-70">Thick:</span> <br><span class="font-black text-themeaccent text-base">${parseFloat(l.thickness).toFixed(1)}mm</span></div>
+                  <div class="bg-themepanel/50 p-3 rounded-lg border border-themeborder flex justify-between items-center font-code text-xs">
+                      <div><span class="text-white/60">Eff. Mass:</span> <br><span class="font-bold text-themetext">${parseFloat(l.effectiveMass || l.tonnage).toFixed(2)}t</span></div>
+                      <div><span class="text-white/60">Rate:</span> <br><span class="font-bold text-themetext">${parseFloat(l.spreadRate).toFixed(2)} m²</span></div>
+                      <div class="text-right"><span class="text-themeaccent">Thick:</span> <br><span class="font-black text-themeaccent text-base">${parseFloat(l.thickness).toFixed(1)}mm</span></div>
                   </div>`;
                 card.querySelector('.del-btn').onclick = async ()=> { await idbDelete(l.id); await renderLogs(); };
                 logList.appendChild(card);
@@ -434,110 +401,56 @@
             function parseDecoded(text){
               const s = (text||'').trim().replace(/\n|\r/g, ' ').replace(/\s{2,}/g, ' '); 
               let parsed = { time: new Date().toISOString(), company: 'Unknown', customer: 'Unknown', material: 'Unknown Mix', truck: 'Unknown', registration: 'Unknown', tonnage: 0, raw: s };
-              
               const getVal = (keywords) => {
                   const regexStr = `(?:${keywords})\\s*[:\\-]?\\s*(.+?)(?=\\s*(?:Company|Co|Customer|Client|DeliveryNote|Ticket|Tkt|Product|Material|Mix|Net|Mass|Weight|Registration|Reg|Despatched|DateTime|Date|Time|Plant|Job|Cartage by|Location|BC|Temp|Order|Tare|Gross|EPC)\\s*[:\\-]|$)`;
-                  const match = s.match(new RegExp(regexStr, 'i'));
-                  return match ? match[1].trim() : null;
+                  const match = s.match(new RegExp(regexStr, 'i')); return match ? match[1].trim() : null;
               };
-
-              parsed.company = getVal('Company|Co') || 'Unknown';
-              parsed.customer = getVal('Customer|Client') || 'Unknown';
-              parsed.truck = getVal('DeliveryNote|Ticket|Tkt|Note') || 'Unknown';
-              parsed.material = getVal('Product|Material|Mix') || 'Unknown';
+              parsed.company = getVal('Company|Co') || 'Unknown'; parsed.customer = getVal('Customer|Client') || 'Unknown';
+              parsed.truck = getVal('DeliveryNote|Ticket|Tkt|Note') || 'Unknown'; parsed.material = getVal('Product|Material|Mix') || 'Unknown';
               parsed.registration = getVal('Registration|Reg|Vehicle') || 'Unknown';
-              
               let rawMass = getVal('Net\\s*Mass|Net|Mass|Weight');
-              if (!rawMass) {
-                  const fallback = s.match(/(?:Net|Mass|Weight)[^\d]*([\d.]+)/i);
-                  rawMass = fallback ? fallback[1] : "0";
-              }
+              if (!rawMass) { const fallback = s.match(/(?:Net|Mass|Weight)[^\d]*([\d.]+)/i); rawMass = fallback ? fallback[1] : "0"; }
               parsed.tonnage = parseFloat(rawMass.replace(/[^\d.]/g, '')) || 0;
-              
-              const timeVal = getVal('Despatched|DateTime|Date|Time');
-              if(timeVal) parsed.time = timeVal;
-              
+              const timeVal = getVal('Despatched|DateTime|Date|Time'); if(timeVal) parsed.time = timeVal;
               return parsed;
             }
          
             async function handleDecodedText(decodedText){
-              const parsed = parseDecoded(decodedText);
-              if(video.srcObject) closeInApp.click();
+              const parsed = parseDecoded(decodedText); if(video.srcObject) closeInApp.click();
               modalMass.innerText = parsed.tonnage > 0 ? parsed.tonnage.toFixed(2) : "0.00";
               rawMassVal.value = parsed.tonnage; rawTicketVal.value = parsed.truck; rawMixVal.value = parsed.material; rawCompanyVal.value = parsed.company; rawCustomerVal.value = parsed.customer; rawRegVal.value = parsed.registration;
               inputLength.value = ''; inputWidth.value = ''; 
               document.querySelector('input[name="cutbackInc"][value="yes"]').checked = true;
               document.querySelector('input[name="wastageOcc"][value="no"]').checked = true;
-              cutbackDimensions.classList.add('hidden');
-              wastageDetails.classList.add('hidden');
-
-              inputDensity.value = globalDensity.value;
-              mathModal.classList.remove('hidden'); 
+              cutbackDimensions.classList.add('hidden'); wastageDetails.classList.add('hidden');
+              inputDensity.value = globalDensity.value; mathModal.classList.remove('hidden'); 
               setStatus('SYSTEM READY. INPUT DIMENSIONS.', true);
             }
 
-            cancelModalBtn.addEventListener('click', () => { 
-                mathModal.classList.add('hidden'); 
-                setStatus('SCAN ABORTED', false); 
-            });
+            cancelModalBtn.addEventListener('click', () => { mathModal.classList.add('hidden'); setStatus('SCAN ABORTED', false); });
 
             calcAndSaveBtn.addEventListener('click', async () => {
-                const totalMassTonnes = parseFloat(rawMassVal.value) || 0; 
-                const length = parseFloat(inputLength.value) || 0; 
-                const width = parseFloat(inputWidth.value) || 0; 
-                const brd = parseFloat(inputDensity.value) || 2.40;
-
+                const totalMassTonnes = parseFloat(rawMassVal.value) || 0; const length = parseFloat(inputLength.value) || 0; 
+                const width = parseFloat(inputWidth.value) || 0; const brd = parseFloat(inputDensity.value) || 2.40;
                 let totalArea = length * width;
-                const cutbackIncluded = document.querySelector('input[name="cutbackInc"]:checked').value;
-                if(cutbackIncluded === 'no') {
-                    const cLen = parseFloat(document.getElementById('cutLength').value) || 0;
-                    const cWid = parseFloat(document.getElementById('cutWidth').value) || 0;
-                    totalArea += (cLen * cWid);
+                if(document.querySelector('input[name="cutbackInc"]:checked').value === 'no') {
+                    totalArea += (parseFloat(document.getElementById('cutLength').value) || 0) * (parseFloat(document.getElementById('cutWidth').value) || 0);
                 }
-
-                let effectiveMass = totalMassTonnes;
-                const wastageOccurred = document.querySelector('input[name="wastageOcc"]:checked').value;
-                let wMass = 0; let wReason = "";
-                if(wastageOccurred === 'yes') {
+                let effectiveMass = totalMassTonnes; let wMass = 0; let wReason = "";
+                if(document.querySelector('input[name="wastageOcc"]:checked').value === 'yes') {
                     wMass = parseFloat(document.getElementById('wastedMass').value) || 0;
                     wReason = document.getElementById('wastageReason').value.trim() || "No reason provided";
                     effectiveMass -= wMass;
                 }
-
-                if(totalMassTonnes <= 0 || totalArea <= 0 || brd <= 0 || effectiveMass <= 0) { 
-                    alert("VALIDATION HALT: Parameters and Effective Mass must evaluate above zero."); 
-                    return; 
-                }
-
-                const spreadRate = totalArea / effectiveMass; 
-                const thickness = 1000 / (brd * spreadRate); 
-                
+                if(totalMassTonnes <= 0 || totalArea <= 0 || brd <= 0 || effectiveMass <= 0) { alert("VALIDATION HALT: Parameters out of range."); return; }
+                const spreadRate = totalArea / effectiveMass; const thickness = 1000 / (brd * spreadRate); 
                 const entry = { 
-                    id: uid(), 
-                    t: new Date().toISOString(), 
-                    company: rawCompanyVal.value, 
-                    customer: rawCustomerVal.value, 
-                    registration: rawRegVal.value, 
-                    material: rawMixVal.value, 
-                    truck: rawTicketVal.value, 
-                    tonnage: totalMassTonnes, 
-                    effectiveMass: effectiveMass,
-                    length: length, 
-                    width: width, 
-                    area: totalArea, 
-                    spreadRate: spreadRate, 
-                    density: brd, 
-                    thickness: thickness,
-                    cutbackAdded: cutbackIncluded === 'no' ? 'Yes' : 'No',
-                    wastageMass: wMass,
-                    wastageReason: wReason
+                    id: uid(), t: new Date().toISOString(), company: rawCompanyVal.value, customer: rawCustomerVal.value, registration: rawRegVal.value, 
+                    material: rawMixVal.value, truck: rawTicketVal.value, tonnage: totalMassTonnes, effectiveMass: effectiveMass, length: length, width: width, 
+                    area: totalArea, spreadRate: spreadRate, density: brd, thickness: thickness, cutbackAdded: document.querySelector('input[name="cutbackInc"]:checked').value === 'no' ? 'Yes' : 'No',
+                    wastageMass: wMass, wastageReason: wReason
                 };
-
-                await idbPut(entry); 
-                await renderLogs(); 
-                
-                mathModal.classList.add('hidden'); 
-                setStatus(`LOGGED TICKET ${entry.truck}`, true);
+                await idbPut(entry); await renderLogs(); mathModal.classList.add('hidden'); setStatus(`LOGGED TICKET ${entry.truck}`, true);
             });
          
             async function decodeCanvasOrBlob(source){
@@ -546,40 +459,25 @@
               try { const ReaderClass = window.ZXing?.BrowserQRCodeReader || window.BrowserMultiFormatReader; if(ReaderClass){ const reader = new ReaderClass(); const blob = await new Promise(r=> canvas.toBlob(r,'image/png')); const url = URL.createObjectURL(blob); const result = await reader.decodeFromImageUrl(url); URL.revokeObjectURL(url); if(result && result.text) return result.text; } } catch(e){} return null;
             }
          
-            function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
-            async function waitForVideoReady(v){ const start = Date.now(); while ((v.readyState < 2) && (Date.now() - start) < 3000) await sleep(100); }
+            async function waitForVideoReady(v){ const start = Date.now(); while ((v.readyState < 2) && (Date.now() - start) < 3000) await new Promise(r=>setTimeout(r,100)); }
          
             openInApp.addEventListener('click', async ()=>{
-              try { const constraints = { video: { facingMode: { ideal:'environment' } }, audio:false }; video.srcObject = await navigator.mediaDevices.getUserMedia(constraints); await waitForVideoReady(video); cameraWrap.classList.remove('hidden'); video.classList.remove('hidden'); closeInApp.classList.remove('hidden'); captureBtn.classList.remove('hidden'); openInApp.classList.add('hidden'); setStatus('ALIGN QR AND PRESS EXTRACT', true); } catch(e){ setStatus('CAMERA UNAVAILABLE', false); }
+              try { video.srcObject = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal:'environment' } }, audio:false }); await waitForVideoReady(video); cameraWrap.classList.remove('hidden'); video.classList.remove('hidden'); closeInApp.classList.remove('hidden'); captureBtn.classList.remove('hidden'); openInApp.classList.add('hidden'); setStatus('ALIGN QR AND PRESS EXTRACT', true); } catch(e){ setStatus('CAMERA UNAVAILABLE', false); }
             });
             closeInApp.addEventListener('click', ()=>{ if(video.srcObject) video.srcObject.getTracks().forEach(t=>t.stop()); video.srcObject = null; cameraWrap.classList.add('hidden'); video.classList.add('hidden'); closeInApp.classList.add('hidden'); captureBtn.classList.add('hidden'); openInApp.classList.remove('hidden'); setStatus('SYSTEM IDLE', false); });
-            captureBtn.addEventListener('click', async ()=>{ if(!video.srcObject) return; const side = Math.min(video.videoWidth, video.videoHeight); const sx = (video.videoWidth - side) / 2; const sy = (video.videoHeight - side) / 2; preview.width = side; preview.height = side; const ctx = preview.getContext('2d'); ctx.drawImage(video, sx, sy, side, side, 0, 0, side, side); setStatus('DECRYPTING TICKET...', true); const blob = await new Promise(r=> preview.toBlob(r,'image/jpeg', 0.9)); const text = await decodeCanvasOrBlob(blob); if(text) await handleDecodedText(text); else setStatus('SCAN FAILED. RETRY.', false); });
+            captureBtn.addEventListener('click', async ()=>{ if(!video.srcObject) return; const side = Math.min(video.videoWidth, video.videoHeight); const sx = (video.videoWidth - side) / 2; const sy = (video.videoHeight - side) / 2; preview.width = side; preview.height = side; preview.getContext('2d').drawImage(video, sx, sy, side, side, 0, 0, side, side); setStatus('DECRYPTING TICKET...', true); const blob = await new Promise(r=> preview.toBlob(r,'image/jpeg', 0.9)); const text = await decodeCanvasOrBlob(blob); if(text) await handleDecodedText(text); else setStatus('SCAN FAILED. RETRY.', false); });
             openNative.addEventListener('click', ()=> cameraInput.click());
             cameraInput.addEventListener('change', async ev=>{ const f = ev.target.files && ev.target.files[0]; if(!f) return; setStatus('DECRYPTING TICKET...', true); const text = await decodeCanvasOrBlob(f); if(text) await handleDecodedText(text); else setStatus('SCAN FAILED. RETRY.', false); cameraInput.value = ''; });
          
             function logsToCSV(rows){
               const header = ['Scan Date','Scan Time','Company','Client','Registration','Mix Type','Ticket','Total Mass (t)','Wasted Mass (t)','Effective Mass (t)','Length (m)','Width (m)','Area (m2)','Spread Rate (m2/t)','Target BRD','Thickness (mm)', 'Cutback Included', 'Wastage Comment']; 
               const lines = [header.join(',')];
-              rows.forEach(r=>{ 
-                  const dateObj = new Date(r.t); 
-                  lines.push([ 
-                      dateObj.toLocaleDateString(), dateObj.toLocaleTimeString(), r.company, r.customer, r.registration, r.material, r.truck, r.tonnage.toFixed(2), 
-                      r.wastageMass ? r.wastageMass.toFixed(2) : "0.00", r.effectiveMass ? r.effectiveMass.toFixed(2) : r.tonnage.toFixed(2),
-                      r.length.toFixed(2), r.width.toFixed(2), r.area.toFixed(2), r.spreadRate.toFixed(2), r.density.toFixed(2), r.thickness.toFixed(2), r.cutbackAdded || "No", r.wastageReason || "N/A"
-                  ].map(v => '"' + String(v).replace(/"/g,'""') + '"').join(',')); 
-              }); 
-              return lines.join('\n');
+              rows.forEach(r=>{ const dateObj = new Date(r.t); lines.push([dateObj.toLocaleDateString(), dateObj.toLocaleTimeString(), r.company, r.customer, r.registration, r.material, r.truck, r.tonnage.toFixed(2), r.wastageMass ? r.wastageMass.toFixed(2) : "0.00", r.effectiveMass ? r.effectiveMass.toFixed(2) : r.tonnage.toFixed(2), r.length.toFixed(2), r.width.toFixed(2), r.area.toFixed(2), r.spreadRate.toFixed(2), r.density.toFixed(2), r.thickness.toFixed(2), r.cutbackAdded || "No", r.wastageReason || "N/A"].map(v => '"' + String(v).replace(/"/g,'""') + '"').join(',')); }); return lines.join('\n');
             }
          
             function downloadBlob(filename, blob){ const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url); }
-         
-            downloadDateBtn.addEventListener('click', async ()=>{ const date = exportDateInput.value; if(!date) return alert('Engine Error: Select Date First'); const logs = (await idbGetAll()).filter(l => l.t.slice(0,10) === date); if(!logs.length) return alert('No data for ' + date); downloadBlob(`SS_Coastal_PaveOps_${date}.csv`, new Blob([logsToCSV(logs)], {type:'text/csv'})); setStatus('REPORT EXPORTED', true); });
-            clearAllBtn.addEventListener('click', async ()=>{ 
-                if(confirm('WARNING: Permanently wipe the database Ledger?')){ 
-                    const { error } = await supabase.from('logs').delete().neq('id', '_none_');
-                    if (!error) { await renderLogs(); setStatus('LEDGER CLEAR', false); }
-                } 
-            });
+            downloadDateBtn.addEventListener('click', async ()=>{ const date = exportDateInput.value; if(!date) return alert('Select Date'); const logs = (await idbGetAll()).filter(l => l.t.slice(0,10) === date); if(!logs.length) return alert('No data'); downloadBlob(`SS_Coastal_PaveOps_${date}.csv`, new Blob([logsToCSV(logs)], {type:'text/csv'})); setStatus('REPORT EXPORTED', true); });
+            clearAllBtn.addEventListener('click', async ()=>{ if(confirm('Permanently clear database?')){ const { error } = await supabase.from('logs').delete().neq('id', '_none_'); if (!error) { await renderLogs(); setStatus('LEDGER CLEAR', false); } } });
          
             renderLogs(); document.getElementById('exportDate').valueAsDate = new Date();
         } 
