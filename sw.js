@@ -1,64 +1,50 @@
-const CACHE_NAME = 'ss-coastal-paveops-v1';
-const ASSETS = [
+const CACHE_NAME = 'stefanutti-paveops-v1';
+const urlsToCache = [
   './',
   './index.html',
   './manifest.json',
+  './assets/stefanutti-logo.png',
   './libs/jsqr.min.js',
-  './libs/zxing.min.js',
-  './assets/ss-logo.png'
+  './libs/zxing.min.js'
 ];
 
-// Install and Cache Core Assets
-self.addEventListener('install', (e) => {
-  e.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS);
-    }).then(() => self.skipWaiting())
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then(cache => {
+        console.log('Opened cache');
+        return cache.addAll(urlsToCache);
+      })
+  );
+  self.skipWaiting();
+});
+
+self.addEventListener('fetch', event => {
+  event.respondWith(
+    caches.match(event.request)
+      .then(response => {
+        // Cache hit - return response
+        if (response) {
+          return response;
+        }
+        return fetch(event.request);
+      })
   );
 });
 
-// Activate & Clean Up Old Caches
-self.addEventListener('activate', (e) => {
-  e.waitUntil(
-    caches.keys().then((keys) => {
+self.addEventListener('activate', event => {
+  const cacheWhitelist = [CACHE_NAME];
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
       return Promise.all(
-        keys.map((key) => {
-          if (key !== CACHE_NAME) {
-            return caches.delete(key);
+        cacheNames.map(cacheName => {
+          if (cacheWhitelist.indexOf(cacheName) === -1) {
+            return caches.delete(cacheName);
           }
         })
       );
-    }).then(() => self.clients.claim())
+    })
   );
+  return self.clients.claim();
 });
-
-// Network-First Strategy for Cloud Auth & Logging Data
-self.addEventListener('fetch', (e) => {
-  const url = new URL(e.request.url);
-
-  // Bypass application caching completely for live database/auth traffic
-  if (url.hostname.includes('supabase.co')) {
-    e.respondWith(
-      fetch(e.request).catch(() => {
-        return new Response(
-          JSON.stringify({ error: "Offline network state. Database operation unreachable." }), 
-          { headers: { 'Content-Type': 'application/json' } }
-        );
-      })
-    );
-    return;
-  }
-
-  // Handle standard static PWA shell asset loading
-  e.respondWith(
-    fetch(e.request)
-      .then((response) => {
-        if (response.status === 200) {
-          const resClone = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(e.request, resClone));
-        }
-        return response;
-      })
-      .catch(() => caches.match(e.request))
-  );
-});
+null
