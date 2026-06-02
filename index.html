@@ -7,7 +7,6 @@
     <meta name="theme-color" content="#00377c">
     <link rel="manifest" href="manifest.json">
     
-    <!-- DOMAIN LOCK SECURITY -->
     <script>
         (function() {
             const allowedDomains = [
@@ -27,7 +26,6 @@
         })();
     </script>
 
-    <!-- TAILWIND & FONTS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     
@@ -145,7 +143,6 @@
 </head>
 <body class="bg-themebg text-themetext p-4 md:p-8 antialiased selection:bg-themeaccent selection:text-themebtntext">
 
-    <!-- AUTHENTICATION GATE -->
     <div id="authGate" class="max-w-md mx-auto mt-20 bg-themepanel p-8 rounded-2xl border border-themeborder shadow-[0_0_50px_rgba(0,0,0,0.6)] text-center relative overflow-hidden flex flex-col items-center hidden">
         <div class="absolute top-0 left-0 w-full h-1 bg-themeaccent"></div>
         <img src="logo-512.png" alt="Stefanutti Stocks Logo" class="h-16 mb-4 rounded-lg shadow-lg" onerror="this.src='assets/ss-logo.png'; this.onerror=null;">
@@ -167,7 +164,6 @@
         <p id="authError" class="text-rose-500 font-code text-xs mt-4 hidden uppercase tracking-wide bg-rose-950/20 py-2 px-3 rounded border border-rose-900/50">Invalid Credentials.</p>
     </div>
 
-    <!-- MAIN APP INTERFACE -->
     <div id="appInterface" class="max-w-3xl mx-auto hidden pb-10">
         
         <div class="mb-4 flex flex-col justify-center items-center border-b border-themeborder pb-6 gap-2 text-center relative">
@@ -179,7 +175,6 @@
                 <button id="signOutBtn" class="text-[10px] font-code uppercase tracking-widest border border-themeborder rounded px-2 py-1 bg-themeinput text-rose-500 hover:bg-rose-950/30">Sign Out</button>
             </div>
 
-            <!-- THEME SWITCHER UI -->
             <div class="flex gap-2 bg-themepanel p-2 rounded-xl border border-themeborder w-full max-w-md shadow-sm">
                 <button class="theme-btn active flex-1 py-2 text-[10px] font-code uppercase tracking-widest rounded-lg" data-target-theme="dark">Dark</button>
                 <button class="theme-btn flex-1 py-2 text-[10px] font-code uppercase tracking-widest rounded-lg" data-target-theme="light">Light</button>
@@ -188,7 +183,6 @@
             </div>
         </div>
 
-        <!-- TICKET INGESTION PANEL -->
         <div class="bg-themepanel p-5 md:p-8 rounded-2xl border border-themeborder mb-6 shadow-xl relative overflow-hidden">
             <div class="absolute top-0 left-0 w-1 h-full bg-themeaccent"></div>
             <h2 class="text-sm font-black uppercase tracking-widest mb-4 text-themetext flex items-center gap-2">
@@ -218,7 +212,6 @@
             <input id="cameraInput" type="file" accept="image/*" capture="environment" class="hidden">
         </div>
 
-        <!-- SHIFT LEDGER PANEL -->
         <div class="bg-themepanel p-5 md:p-8 rounded-2xl border border-themeborder shadow-xl relative overflow-hidden">
             <div class="absolute top-0 left-0 w-1 h-full bg-themeaccent opacity-50"></div>
             <div class="flex justify-between items-center mb-6">
@@ -253,7 +246,6 @@
         </div>
     </div>
 
-    <!-- CALCULATIONS MODAL -->
     <div id="mathModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-themepanel border border-themeborder p-6 md:p-8 rounded-2xl max-w-sm w-full shadow-2xl max-h-[90vh] flex flex-col relative overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-1 bg-themeaccent"></div>
@@ -337,7 +329,6 @@
         </div>
     </div>
 
-    <!-- SCRIPT DEPENDENCIES -->
     <script src="libs/jsqr.min.js"></script>
     <script src="libs/zxing.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -463,28 +454,64 @@
                 }
             }
          
+            // ==========================================
+            // CRITICAL COTO CALCULATION RENDER FUNCTION
+            // ==========================================
             async function renderLogs(){
-              const logs = await idbGetAll(); logList.innerHTML = ''; logs.sort((a,b)=> (b.t > a.t ? 1 : -1));
+              const logs = await idbGetAll(); 
+              logList.innerHTML = ''; 
+              logs.sort((a,b)=> (b.t > a.t ? 1 : -1));
+
               logs.forEach(l=>{
                 const card = document.createElement('div'); 
                 card.className = 'bg-themeinput p-4 rounded-xl border border-themeborder hover:border-themeaccent transition-colors text-sm shadow-sm';
-                const dateObj = new Date(l.t); const scanTime = dateObj.toLocaleDateString() + ' ' + dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                
+                const dateObj = new Date(l.t); 
+                const scanTime = dateObj.toLocaleDateString() + ' ' + dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                
+                const displayMix = l.material || 'Unknown Mix';
+                const displayEffMass = parseFloat(l.effectiveMass || l.tonnage || 0).toFixed(2);
+                const displaySpreadRate = parseFloat(l.spreadRate || 0).toFixed(2);
+                const displayThickness = parseFloat(l.thickness || 0).toFixed(1);
+                const displayTicket = l.truck || 'N/A';
+                const displayCompany = l.company || 'N/A';
+
                 card.innerHTML = `
                   <div class="flex justify-between items-center border-b border-themeborder pb-2 mb-3">
                       <div class="font-code text-[10px] text-themeaccent tracking-widest uppercase font-bold">Scanned: ${scanTime}</div>
                       <button class="danger del-btn font-bold text-[10px] uppercase px-2 py-1 bg-rose-950/20 text-rose-500 rounded border border-rose-900/50" data-id="${l.id}">DEL</button>
                   </div>
+                  
                   <div class="grid grid-cols-2 gap-2 mb-3 font-code text-xs text-themetext">
-                      <div><span class="text-thememuted">Co:</span> ${l.company}</div>
-                      <div><span class="text-thememuted">Tkt:</span> ${l.truck}</div>
-                      <div class="col-span-2"><span class="text-thememuted">Mix:</span> ${l.material}</div>
+                      <div><span class="text-thememuted">Co:</span> ${displayCompany}</div>
+                      <div><span class="text-thememuted">Tkt:</span> ${displayTicket}</div>
+                      <div class="col-span-2 bg-themepanel/40 p-2 rounded border border-themeborder/40 mt-1">
+                          <span class="text-thememuted uppercase text-[9px] block tracking-wider font-bold">Mix Design Type</span>
+                          <span class="text-themeaccent font-bold">${displayMix}</span>
+                      </div>
                   </div>
-                  <div class="bg-themepanel p-3 rounded-lg border border-themeborder flex justify-between items-center font-code text-xs text-themetext">
-                      <div><span class="text-thememuted">Eff. Mass:</span> <br><span class="font-bold">${parseFloat(l.effectiveMass || l.tonnage).toFixed(2)}t</span></div>
-                      <div><span class="text-thememuted">Rate:</span> <br><span class="font-bold">${parseFloat(l.spreadRate).toFixed(2)} m²</span></div>
-                      <div class="text-right"><span class="text-themeaccent">Thick:</span> <br><span class="font-black text-themeaccent text-base">${parseFloat(l.thickness).toFixed(1)}mm</span></div>
+                  
+                  <div class="bg-themepanel p-3 rounded-lg border border-themeborder grid grid-cols-3 gap-2 items-center text-center font-code text-xs text-themetext">
+                      <div class="border-r border-themeborder/60 text-left pl-1">
+                          <span class="text-thememuted text-[9px] uppercase block">Eff. Tons</span>
+                          <span class="font-black text-sm text-themetext">${displayEffMass}t</span>
+                      </div>
+                      <div class="border-r border-themeborder/60 text-left pl-2">
+                          <span class="text-thememuted text-[9px] uppercase block">Spread Rate</span>
+                          <span class="font-black text-sm text-themetext">${displaySpreadRate} m²/t</span>
+                      </div>
+                      <div class="text-right pr-1">
+                          <span class="text-themeaccent text-[9px] uppercase block font-bold">Paved Thick.</span>
+                          <span class="font-black text-themeaccent text-lg">${displayThickness} mm</span>
+                      </div>
                   </div>`;
-                card.querySelector('.del-btn').onclick = async ()=> { await idbDelete(l.id); await renderLogs(); };
+
+                card.querySelector('.del-btn').onclick = async ()=> { 
+                    if(confirm(`Delete ticket ${displayTicket}?`)) {
+                        await idbDelete(l.id); 
+                        await renderLogs(); 
+                    }
+                };
                 logList.appendChild(card);
               });
               countSpan.textContent = logs.length;
@@ -521,27 +548,43 @@
 
             cancelModalBtn.addEventListener('click', () => { mathModal.classList.add('hidden'); setStatus('SCAN ABORTED', false); });
 
+            // ==========================================
+            // CRITICAL COTO CALCULATION MATH ENGINE
+            // ==========================================
             calcAndSaveBtn.addEventListener('click', async () => {
-                const totalMassTonnes = parseFloat(rawMassVal.value) || 0; const length = parseFloat(inputLength.value) || 0; 
-                const width = parseFloat(inputWidth.value) || 0; const brd = parseFloat(inputDensity.value) || 2.40;
+                const totalMassTonnes = parseFloat(rawMassVal.value) || 0; 
+                const length = parseFloat(inputLength.value) || 0; 
+                const width = parseFloat(inputWidth.value) || 0; 
+                const brd = parseFloat(inputDensity.value) || 2.40;
+                
                 let totalArea = length * width;
                 if(document.querySelector('input[name="cutbackInc"]:checked').value === 'no') {
                     totalArea += (parseFloat(document.getElementById('cutLength').value) || 0) * (parseFloat(document.getElementById('cutWidth').value) || 0);
                 }
+                
                 let effectiveMass = totalMassTonnes; let wMass = 0; let wReason = "";
                 if(document.querySelector('input[name="wastageOcc"]:checked').value === 'yes') {
                     wMass = parseFloat(document.getElementById('wastedMass').value) || 0;
                     wReason = document.getElementById('wastageReason').value.trim() || "No reason provided";
                     effectiveMass -= wMass;
                 }
-                if(totalMassTonnes <= 0 || totalArea <= 0 || brd <= 0 || effectiveMass <= 0) { alert("VALIDATION HALT: Parameters out of range."); return; }
-                const spreadRate = totalArea / effectiveMass; const thickness = 1000 / (brd * spreadRate); 
+                
+                if(totalMassTonnes <= 0 || totalArea <= 0 || brd <= 0 || effectiveMass <= 0) { 
+                    alert("VALIDATION HALT: Parameters out of range."); 
+                    return; 
+                }
+                
+                // --- Core Formulas ---
+                const spreadRate = totalArea / effectiveMass; 
+                const thickness = 1000 / (brd * spreadRate); 
+                
                 const entry = { 
                     id: uid(), t: new Date().toISOString(), company: rawCompanyVal.value, customer: rawCustomerVal.value, registration: rawRegVal.value, 
                     material: rawMixVal.value, truck: rawTicketVal.value, tonnage: totalMassTonnes, effectiveMass: effectiveMass, length: length, width: width, 
                     area: totalArea, spreadRate: spreadRate, density: brd, thickness: thickness, cutbackAdded: document.querySelector('input[name="cutbackInc"]:checked').value === 'no' ? 'Yes' : 'No',
                     wastageMass: wMass, wastageReason: wReason
                 };
+                
                 await idbPut(entry); await renderLogs(); mathModal.classList.add('hidden'); setStatus(`LOGGED TICKET ${entry.truck}`, true);
             });
          
