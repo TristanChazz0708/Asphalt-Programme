@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -44,7 +44,8 @@
                         thememuted: 'var(--text-muted)',
                         themeaccent: 'var(--theme-accent)',
                         themehover: 'var(--theme-accent-hover)',
-                        themebtntext: 'var(--btn-text)'
+                        themebtntext: 'var(--btn-text)',
+                        themesec: 'var(--theme-secondary)'
                     }
                 }
             }
@@ -52,25 +53,72 @@
     </script>
 
     <style>
-        body { font-family: 'Inter', sans-serif; transition: background-color 0.3s ease, color 0.3s ease; }
+        /* Smooth transitions for theme switching */
+        * { transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease; }
+        
+        body { font-family: 'Inter', sans-serif; }
         .font-code { font-family: 'JetBrains Mono', monospace; }
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: var(--bg-app); }
         ::-webkit-scrollbar-thumb { background: var(--theme-accent); border-radius: 10px; }
 
-        /* BRAND PALETTE ADAPTATION */
-        :root {
-            --bg-app: #020c1b;          /* Premium Deep Navy-Black */
-            --bg-panel: #00377c;        /* STEFANUTTI STOCKS CORPORATE BLUE */
-            --bg-input: #00224d;        /* Secondary Dark Blue Contrast */
-            --border-color: #004b9e;    /* Clean Structural Blue Borders */
-            --text-main: #f8fafc;       /* Crisp White Text */
-            --text-muted: #94a3b8;      /* Slate Muted Text */
-            --theme-accent: #f7c505;    /* STEFANUTTI STOCKS CORPORATE GOLD */
+        /* 1. CORPORATE DARK (Default - Based strictly on logo-512.png) */
+        :root, [data-theme="dark"] {
+            --bg-app: #020c1b;          
+            --bg-panel: #00377c;        
+            --bg-input: #00224d;        
+            --border-color: #004b9e;    
+            --text-main: #ffffff;       
+            --text-muted: #94a3b8;      
+            --theme-accent: #f7c505;    
             --theme-accent-hover: #ca8a04; 
-            --btn-text: #000000;        /* High-Contrast Black Text on Gold Elements */
+            --btn-text: #000000;        
+            --theme-secondary: #00377c;
         }
 
+        /* 2. CORPORATE LIGHT (Clean, bright, utilizes brand blue for text) */
+        [data-theme="light"] {
+            --bg-app: #f1f5f9;          
+            --bg-panel: #ffffff;        
+            --bg-input: #e2e8f0;        
+            --border-color: #cbd5e1;    
+            --text-main: #00377c;       
+            --text-muted: #64748b;      
+            --theme-accent: #f7c505;    
+            --theme-accent-hover: #eab308; 
+            --btn-text: #000000;        
+            --theme-secondary: #00377c;
+        }
+
+        /* 3. FIELD DAY (High Contrast for bright sunlight visibility) */
+        [data-theme="field"] {
+            --bg-app: #ffffff;          
+            --bg-panel: #f8fafc;        
+            --bg-input: #ffffff;        
+            --border-color: #00377c;    
+            --text-main: #000000;       
+            --text-muted: #334155;      
+            --theme-accent: #00377c;    
+            --theme-accent-hover: #00224d; 
+            --btn-text: #f7c505;        
+            --theme-secondary: #f7c505;
+        }
+
+        /* 4. DUSK (Muted Slate to reduce eye strain, yellow pops out) */
+        [data-theme="dusk"] {
+            --bg-app: #0f172a;          
+            --bg-panel: #1e293b;        
+            --bg-input: #334155;        
+            --border-color: #475569;    
+            --text-main: #f8fafc;       
+            --text-muted: #94a3b8;      
+            --theme-accent: #f7c505;    
+            --theme-accent-hover: #ca8a04; 
+            --btn-text: #000000;        
+            --theme-secondary: #00377c;
+        }
+
+        /* CAMERA STYLES */
         .camera-square { width: 100%; padding-top: 100%; position: relative; overflow: hidden; border-radius: 12px; background: #000; border: 1px solid var(--border-color); }
         .camera-square video { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: auto; height: 100%; min-width: 100%; min-height: 100%; object-fit: cover; }
         .finder { position: absolute; top: 50%; left: 50%; width: 70%; height: 70%; transform: translate(-50%,-50%); box-sizing: border-box; pointer-events: none; border: 2px solid rgba(247, 197, 5, 0.5); border-radius: 6px; box-shadow: 0 0 0 9999px rgba(0,0,0,0.6) inset; }
@@ -79,42 +127,64 @@
         .finder::after { bottom: -2px; right: -2px; width: 28px; height: 4px; }
         .finder span::before { top: -2px; right: -2px; width: 4px; height: 28px; }
         .finder span::after { bottom: -2px; left: -2px; width: 4px; height: 28px; }
+
+        /* THEME TOGGLE BUTTONS */
+        .theme-btn {
+            border: 1px solid var(--border-color);
+            background: var(--bg-input);
+            color: var(--text-main);
+            transition: all 0.2s;
+        }
+        .theme-btn.active {
+            background: var(--theme-accent);
+            color: var(--btn-text);
+            border-color: var(--theme-accent);
+            font-weight: bold;
+        }
     </style>
 </head>
-<body class="bg-themebg text-themetext p-4 md:p-8 antialiased selection:bg-themeaccent selection:text-themebtntext transition-colors duration-500">
+<body class="bg-themebg text-themetext p-4 md:p-8 antialiased selection:bg-themeaccent selection:text-themebtntext">
 
     <!-- AUTHENTICATION GATE -->
     <div id="authGate" class="max-w-md mx-auto mt-20 bg-themepanel p-8 rounded-2xl border border-themeborder shadow-[0_0_50px_rgba(0,0,0,0.6)] text-center relative overflow-hidden flex flex-col items-center hidden">
         <div class="absolute top-0 left-0 w-full h-1 bg-themeaccent"></div>
-        <img src="assets/ss-logo.png" alt="Stefanutti Stocks Logo" class="h-12 mb-4" onerror="this.style.display='none'">
+        <img src="logo-512.png" alt="Stefanutti Stocks Logo" class="h-16 mb-4 rounded-lg shadow-lg" onerror="this.src='assets/ss-logo.png'; this.onerror=null;">
         <h2 class="text-xl font-black uppercase tracking-wider text-themetext mb-2">Stefanutti Stocks Coastal</h2>
         <p class="text-themeaccent mb-6 text-xs font-code uppercase tracking-widest font-bold">Pave Ops Infrastructure Login</p>
         
         <div class="w-full text-left space-y-4 mb-6">
             <div>
-                <label class="block text-[10px] font-code uppercase tracking-widest text-white/70 mb-1">Corporate Email</label>
-                <input type="email" id="authEmail" placeholder="user@stefanuttistocks.com" class="w-full bg-themeinput border border-themeborder rounded-xl p-3 text-themetext font-code focus:ring-2 focus:ring-themeaccent outline-none transition-all">
+                <label class="block text-[10px] font-code uppercase tracking-widest text-thememuted mb-1">Corporate Email</label>
+                <input type="email" id="authEmail" placeholder="user@stefanuttistocks.com" class="w-full bg-themeinput border border-themeborder rounded-xl p-3 text-themetext font-code focus:ring-2 focus:ring-themeaccent outline-none">
             </div>
             <div>
-                <label class="block text-[10px] font-code uppercase tracking-widest text-white/70 mb-1">Password</label>
-                <input type="password" id="authPassword" placeholder="••••••••" class="w-full bg-themeinput border border-themeborder rounded-xl p-3 text-themetext font-code focus:ring-2 focus:ring-themeaccent outline-none transition-all">
+                <label class="block text-[10px] font-code uppercase tracking-widest text-thememuted mb-1">Password</label>
+                <input type="password" id="authPassword" placeholder="••••••••" class="w-full bg-themeinput border border-themeborder rounded-xl p-3 text-themetext font-code focus:ring-2 focus:ring-themeaccent outline-none">
             </div>
         </div>
 
-        <button id="loginBtn" class="w-full bg-themeaccent hover:bg-themehover text-themebtntext font-black tracking-widest uppercase py-4 px-4 rounded-xl transition-all shadow-[0_0_20px_rgba(247,197,5,0.3)]">Sign In</button>
-        <p id="authError" class="text-rose-400 font-code text-xs mt-4 hidden uppercase tracking-wide bg-black/40 py-2 px-3 rounded border border-rose-900/50">Invalid Credentials.</p>
+        <button id="loginBtn" class="w-full bg-themeaccent hover:bg-themehover text-themebtntext font-black tracking-widest uppercase py-4 px-4 rounded-xl shadow-lg">Sign In</button>
+        <p id="authError" class="text-rose-500 font-code text-xs mt-4 hidden uppercase tracking-wide bg-rose-950/20 py-2 px-3 rounded border border-rose-900/50">Invalid Credentials.</p>
     </div>
 
     <!-- MAIN APP INTERFACE -->
     <div id="appInterface" class="max-w-3xl mx-auto hidden pb-10">
         
-        <div class="mb-8 flex flex-col justify-center items-center border-b border-themeborder pb-6 gap-2 text-center relative">
-            <img src="assets/ss-logo.png" alt="Stefanutti Stocks Logo" class="h-10 mb-2" onerror="this.style.display='none'">
-            <div class="flex justify-between w-full items-center max-w-md px-4 md:px-0">
+        <div class="mb-4 flex flex-col justify-center items-center border-b border-themeborder pb-6 gap-2 text-center relative">
+            <img src="logo-512.png" alt="Stefanutti Stocks Logo" class="h-12 mb-2 rounded-lg" onerror="this.src='assets/ss-logo.png'; this.onerror=null;">
+            <div class="flex justify-between w-full items-center max-w-md px-4 md:px-0 mb-4">
                 <h1 class="text-xl font-black uppercase tracking-tighter text-themetext drop-shadow-md text-left">
                     Pave<span class="text-themeaccent">Ops</span> Engine
                 </h1>
-                <button id="signOutBtn" class="text-[10px] font-code uppercase tracking-widest border border-themeborder rounded px-2 py-1 bg-themeinput text-rose-400 hover:bg-rose-950/30 transition-all">Sign Out</button>
+                <button id="signOutBtn" class="text-[10px] font-code uppercase tracking-widest border border-themeborder rounded px-2 py-1 bg-themeinput text-rose-500 hover:bg-rose-950/30">Sign Out</button>
+            </div>
+
+            <!-- THEME SWITCHER UI -->
+            <div class="flex gap-2 bg-themepanel p-2 rounded-xl border border-themeborder w-full max-w-md shadow-sm">
+                <button class="theme-btn active flex-1 py-2 text-[10px] font-code uppercase tracking-widest rounded-lg" data-target-theme="dark">Dark</button>
+                <button class="theme-btn flex-1 py-2 text-[10px] font-code uppercase tracking-widest rounded-lg" data-target-theme="light">Light</button>
+                <button class="theme-btn flex-1 py-2 text-[10px] font-code uppercase tracking-widest rounded-lg" data-target-theme="field">Field</button>
+                <button class="theme-btn flex-1 py-2 text-[10px] font-code uppercase tracking-widest rounded-lg" data-target-theme="dusk">Dusk</button>
             </div>
         </div>
 
@@ -125,7 +195,7 @@
                 <span class="w-2 h-2 rounded-full bg-themeinput animate-pulse" id="scannerIndicator"></span> Ticket Ingestion
             </h2>
             
-            <div id="status" class="text-xs font-code uppercase text-themeaccent mb-6 text-center tracking-widest bg-black/30 py-2 rounded border border-themeborder/40">SYSTEM IDLE — AWAITING CAMERA</div>
+            <div id="status" class="text-xs font-code uppercase text-themeaccent mb-6 text-center tracking-widest bg-themeinput py-2 rounded border border-themeborder">SYSTEM IDLE — AWAITING CAMERA</div>
             
             <div class="camera-wrap hidden mb-6 max-w-sm mx-auto" id="cameraWrap">
                 <div class="camera-square" id="cameraSquare">
@@ -137,13 +207,13 @@
             <canvas id="preview" class="hidden"></canvas>
             
             <div class="flex flex-col gap-3">
-                <button id="openInApp" class="w-full bg-themeaccent hover:bg-themehover text-themebtntext font-black uppercase tracking-widest py-4 rounded-xl transition-all shadow-[0_0_15px_rgba(247,197,5,0.2)]">Initialize Scanner</button>
-                <button id="capture" class="hidden w-full bg-themeaccent hover:bg-themehover text-themebtntext font-black uppercase tracking-widest py-4 rounded-xl transition-all">Extract Note Data</button>
-                <button id="closeInApp" class="hidden w-full bg-transparent border border-themeborder text-themetext hover:bg-themeinput font-bold uppercase tracking-widest py-3 rounded-xl transition-all">Abort Scan</button>
+                <button id="openInApp" class="w-full bg-themeaccent hover:bg-themehover text-themebtntext font-black uppercase tracking-widest py-4 rounded-xl shadow-lg">Initialize Scanner</button>
+                <button id="capture" class="hidden w-full bg-themeaccent hover:bg-themehover text-themebtntext font-black uppercase tracking-widest py-4 rounded-xl">Extract Note Data</button>
+                <button id="closeInApp" class="hidden w-full bg-transparent border border-themeborder text-themetext hover:bg-themeinput font-bold uppercase tracking-widest py-3 rounded-xl">Abort Scan</button>
             </div>
             
-            <div class="mt-6 pt-6 border-t border-themeborder/60">
-                <button id="openNative" class="w-full bg-themeinput border border-themeborder text-white/60 hover:text-themetext hover:border-themeaccent font-bold uppercase tracking-widest py-3 rounded-xl transition-all text-xs">Upload Ticket Image</button>
+            <div class="mt-6 pt-6 border-t border-themeborder">
+                <button id="openNative" class="w-full bg-themeinput border border-themeborder text-thememuted hover:text-themetext hover:border-themeaccent font-bold uppercase tracking-widest py-3 rounded-xl text-xs">Upload Ticket Image</button>
             </div>
             <input id="cameraInput" type="file" accept="image/*" capture="environment" class="hidden">
         </div>
@@ -159,109 +229,109 @@
             </div>
 
             <div class="mb-6 p-4 bg-themeinput rounded-xl border border-themeborder">
-                <label class="block text-[10px] font-code uppercase tracking-widest text-white/60 mb-2">Default Shift Target BRD (t/m³)</label>
-                <input type="number" id="globalDensity" step="0.01" class="w-full bg-themepanel border border-themeborder rounded-xl p-3 text-themeaccent font-code text-lg focus:ring-2 focus:ring-themeaccent outline-none transition-all text-center font-bold">
+                <label class="block text-[10px] font-code uppercase tracking-widest text-thememuted mb-2">Default Shift Target BRD (t/m³)</label>
+                <input type="number" id="globalDensity" step="0.01" class="w-full bg-themepanel border border-themeborder rounded-xl p-3 text-themeaccent font-code text-lg focus:ring-2 focus:ring-themeaccent outline-none text-center font-bold">
             </div>
 
             <div id="logList" class="space-y-4 max-h-96 overflow-y-auto pr-2 mb-6"></div>
 
-            <div class="mt-6 pt-6 border-t border-themeborder/60 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="mt-6 pt-6 border-t border-themeborder grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="flex flex-col gap-2">
-                    <label class="text-[10px] font-code uppercase tracking-widest text-white/60">Export Date</label>
-                    <input id="exportDate" type="date" class="w-full bg-themeinput border border-themeborder rounded-xl p-3 text-themetext font-code text-sm focus:ring-2 focus:ring-themeaccent outline-none color-scheme-dark">
-                    <button id="downloadDate" class="bg-transparent border border-themeborder text-themetext hover:bg-themeinput font-bold uppercase tracking-widest py-3 rounded-xl transition-all text-xs">Download CSV</button>
+                    <label class="text-[10px] font-code uppercase tracking-widest text-thememuted">Export Date</label>
+                    <input id="exportDate" type="date" class="w-full bg-themeinput border border-themeborder rounded-xl p-3 text-themetext font-code text-sm focus:ring-2 focus:ring-themeaccent outline-none">
+                    <button id="downloadDate" class="bg-transparent border border-themeborder text-themetext hover:bg-themeinput font-bold uppercase tracking-widest py-3 rounded-xl text-xs">Download CSV</button>
                 </div>
                 <div class="flex flex-col justify-end">
-                    <button id="clearAll" class="bg-rose-950/30 border border-rose-900 text-rose-400 hover:bg-rose-900/50 font-bold uppercase tracking-widest py-3 rounded-xl transition-all text-xs mt-2">Clear Ledger</button>
+                    <button id="clearAll" class="bg-rose-950/20 border border-rose-900 text-rose-500 hover:bg-rose-900/40 font-bold uppercase tracking-widest py-3 rounded-xl text-xs mt-2">Clear Ledger</button>
                 </div>
             </div>
         </div>
         
-        <div class="text-center mt-10 text-[10px] font-code text-white/40 uppercase tracking-widest">
+        <div class="text-center mt-10 text-[10px] font-code text-thememuted uppercase tracking-widest">
             Stefanutti Stocks Coastal — Operations Infrastructure
         </div>
     </div>
 
     <!-- CALCULATIONS MODAL -->
     <div id="mathModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-themepanel border border-themeborder p-6 md:p-8 rounded-2xl max-w-sm w-full shadow-[0_0_50px_rgba(0,0,0,0.7)] max-h-[90vh] flex flex-col relative overflow-hidden">
+        <div class="bg-themepanel border border-themeborder p-6 md:p-8 rounded-2xl max-w-sm w-full shadow-2xl max-h-[90vh] flex flex-col relative overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-1 bg-themeaccent"></div>
             <h3 class="text-xl font-black uppercase tracking-widest text-themetext mb-6">COTO 2020 Engine</h3>
             
             <div class="flex flex-col gap-4 overflow-y-auto pr-2 pb-4">
                 <div class="bg-themeinput p-4 rounded-xl border border-themeborder">
-                    <label class="block text-[10px] font-code uppercase tracking-widest text-white/60 mb-1">Extracted Mass (Tonnes)</label>
+                    <label class="block text-[10px] font-code uppercase tracking-widest text-thememuted mb-1">Extracted Mass (Tonnes)</label>
                     <div class="text-2xl font-black text-themeaccent font-code" id="modalMass">0.00</div>
                     <input type="hidden" id="rawMassVal"><input type="hidden" id="rawTicketVal"><input type="hidden" id="rawMixVal"><input type="hidden" id="rawCompanyVal"><input type="hidden" id="rawCustomerVal"><input type="hidden" id="rawRegVal">
                 </div>
 
                 <div>
-                    <label class="block text-[10px] font-code uppercase tracking-widest text-white/60 mb-2">Paved Length (m)</label>
+                    <label class="block text-[10px] font-code uppercase tracking-widest text-thememuted mb-2">Paved Length (m)</label>
                     <input type="number" id="inputLength" placeholder="e.g. 50" step="0.1" class="w-full bg-themeinput border border-themeborder rounded-xl p-3 text-themetext font-code text-base focus:ring-2 focus:ring-themeaccent outline-none">
                 </div>
 
                 <div>
-                    <label class="block text-[10px] font-code uppercase tracking-widest text-white/60 mb-2">Paved Width (m)</label>
+                    <label class="block text-[10px] font-code uppercase tracking-widest text-thememuted mb-2">Paved Width (m)</label>
                     <input type="number" id="inputWidth" placeholder="e.g. 3.5" step="0.1" class="w-full bg-themeinput border border-themeborder rounded-xl p-3 text-themetext font-code text-base focus:ring-2 focus:ring-themeaccent outline-none">
                 </div>
                 
-                <div class="bg-black/30 border border-themeborder p-4 rounded-xl mt-2 space-y-4">
+                <div class="bg-themebg border border-themeborder p-4 rounded-xl mt-2 space-y-4">
                     <div>
                         <label class="block text-[10px] font-code uppercase tracking-widest text-themeaccent mb-2 font-bold">Are Cutbacks included in main dimensions?</label>
                         <div class="flex gap-4">
                             <label class="flex items-center gap-2 cursor-pointer text-xs text-themetext">
-                                <input type="radio" name="cutbackInc" value="yes" class="accent-amber-500" checked> Yes
+                                <input type="radio" name="cutbackInc" value="yes" checked> Yes
                             </label>
                             <label class="flex items-center gap-2 cursor-pointer text-xs text-themetext">
-                                <input type="radio" name="cutbackInc" value="no" class="accent-amber-500"> No (Add Separate)
+                                <input type="radio" name="cutbackInc" value="no"> No (Add Separate)
                             </label>
                         </div>
                     </div>
                     
-                    <div id="cutbackDimensions" class="hidden grid grid-cols-2 gap-3 pt-2 border-t border-themeborder/40">
+                    <div id="cutbackDimensions" class="hidden grid grid-cols-2 gap-3 pt-2 border-t border-themeborder">
                         <div>
-                            <label class="block text-[10px] font-code uppercase text-white/60 mb-1">Cut Length (m)</label>
+                            <label class="block text-[10px] font-code uppercase text-thememuted mb-1">Cut Length (m)</label>
                             <input type="number" id="cutLength" step="0.1" class="w-full bg-themeinput border border-themeborder rounded p-2 text-themetext font-code text-sm outline-none">
                         </div>
                         <div>
-                            <label class="block text-[10px] font-code uppercase text-white/60 mb-1">Cut Width (m)</label>
+                            <label class="block text-[10px] font-code uppercase text-thememuted mb-1">Cut Width (m)</label>
                             <input type="number" id="cutWidth" step="0.1" class="w-full bg-themeinput border border-themeborder rounded p-2 text-themetext font-code text-sm outline-none">
                         </div>
                     </div>
 
-                    <div class="pt-2 border-t border-themeborder/40">
+                    <div class="pt-2 border-t border-themeborder">
                         <label class="block text-[10px] font-code uppercase tracking-widest text-themeaccent mb-2 font-bold">Was there any material wastage?</label>
                         <div class="flex gap-4">
                             <label class="flex items-center gap-2 cursor-pointer text-xs text-themetext">
-                                <input type="radio" name="wastageOcc" value="no" class="accent-amber-500" checked> No
+                                <input type="radio" name="wastageOcc" value="no" checked> No
                             </label>
                             <label class="flex items-center gap-2 cursor-pointer text-xs text-themetext">
-                                <input type="radio" name="wastageOcc" value="yes" class="accent-amber-500"> Yes
+                                <input type="radio" name="wastageOcc" value="yes"> Yes
                             </label>
                         </div>
                     </div>
 
-                    <div id="wastageDetails" class="hidden space-y-3 pt-2 border-t border-themeborder/40">
+                    <div id="wastageDetails" class="hidden space-y-3 pt-2 border-t border-themeborder">
                         <div>
-                            <label class="block text-[10px] font-code uppercase text-rose-400 mb-1">Wasted Mass (Tonnes)</label>
-                            <input type="number" id="wastedMass" step="0.1" class="w-full bg-themeinput border border-rose-900/50 rounded p-2 text-rose-400 font-code text-sm outline-none">
+                            <label class="block text-[10px] font-code uppercase text-rose-500 mb-1">Wasted Mass (Tonnes)</label>
+                            <input type="number" id="wastedMass" step="0.1" class="w-full bg-themeinput border border-rose-900/50 rounded p-2 text-rose-500 font-code text-sm outline-none">
                         </div>
                         <div>
-                            <label class="block text-[10px] font-code uppercase text-white/60 mb-1">Reason / Comment</label>
+                            <label class="block text-[10px] font-code uppercase text-thememuted mb-1">Reason / Comment</label>
                             <input type="text" id="wastageReason" placeholder="e.g. Cold mix chunk layout reject" class="w-full bg-themeinput border border-themeborder rounded p-2 text-themetext font-code text-sm outline-none">
                         </div>
                     </div>
                 </div>
                 
                 <div>
-                    <label class="block text-[10px] font-code uppercase tracking-widest text-white/60 mb-2">Target BRD (t/m³)</label>
+                    <label class="block text-[10px] font-code uppercase tracking-widest text-thememuted mb-2">Target BRD (t/m³)</label>
                     <input type="number" id="inputDensity" step="0.01" class="w-full bg-themeinput border border-themeborder rounded-xl p-3 text-themeaccent font-code text-base focus:ring-2 focus:ring-themeaccent outline-none font-bold">
                 </div>
             </div>
             
             <div class="flex gap-3 pt-4 border-t border-themeborder">
-                <button id="cancelModalBtn" class="flex-1 bg-transparent border border-themeborder text-themetext py-3 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-themeinput transition-colors">Discard</button>
-                <button id="calcAndSaveBtn" class="flex-1 bg-themeaccent text-themebtntext py-3 rounded-xl text-xs font-bold uppercase tracking-widest shadow-[0_0_15px_rgba(247,197,5,0.3)] hover:shadow-[0_0_25px_rgba(247,197,5,0.5)] transition-all">Log Data</button>
+                <button id="cancelModalBtn" class="flex-1 bg-transparent border border-themeborder text-themetext py-3 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-themeinput">Discard</button>
+                <button id="calcAndSaveBtn" class="flex-1 bg-themeaccent text-themebtntext py-3 rounded-xl text-xs font-bold uppercase tracking-widest shadow-lg">Log Data</button>
             </div>
         </div>
     </div>
@@ -273,8 +343,28 @@
  
     <script>
     (function(){
-        const { createClient } = window.supabase;
+        // THEME ENGINE INITIALIZATION
+        const savedTheme = localStorage.getItem('ssPaveOpsTheme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
         
+        const themeBtns = document.querySelectorAll('.theme-btn');
+        themeBtns.forEach(btn => {
+            if(btn.dataset.targetTheme === savedTheme) {
+                themeBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            }
+            btn.addEventListener('click', (e) => {
+                const target = e.target.dataset.targetTheme;
+                document.documentElement.setAttribute('data-theme', target);
+                localStorage.setItem('ssPaveOpsTheme', target);
+                
+                themeBtns.forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+            });
+        });
+
+        // SUPABASE & AUTH ENGINE
+        const { createClient } = window.supabase;
         const supabaseUrl = "https://jasmugudntbpycpffgeo.supabase.co";
         const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imphc211Z3VkbnRicHljcGZmZ2VvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAzMTU5OTYsImV4cCI6MjA5NTg5MTk5Nn0.SY4l-sWHj6zTnQ2vfPgxheAmnUWpi65Hd8eLLMd_oJk";
         const supabase = createClient(supabaseUrl, supabaseKey);
@@ -315,6 +405,7 @@
 
         function showMainApplication() { authGate.classList.add('hidden'); appInterface.classList.remove('hidden'); bootAppEngine(); }
 
+        // CORE APPLICATION ENGINE
         function bootAppEngine() {
             function uid() { return Date.now().toString(36) + Math.random().toString(36).substring(2); }
             async function idbPut(entry){ const { error } = await supabase.from('logs').insert([entry]); if (error) console.error(error); }
@@ -363,10 +454,10 @@
             function setStatus(txt, active = false){ 
                 status.textContent = txt; 
                 if(active) {
-                    status.classList.add('text-themeaccent'); status.classList.remove('text-white');
+                    status.classList.add('text-themeaccent'); status.classList.remove('text-themetext');
                     scannerIndicator.classList.add('bg-themeaccent'); scannerIndicator.classList.remove('bg-themeinput');
                 } else {
-                    status.classList.remove('text-themeaccent'); status.classList.add('text-white');
+                    status.classList.remove('text-themeaccent'); status.classList.add('text-themetext');
                     scannerIndicator.classList.remove('bg-themeaccent'); scannerIndicator.classList.add('bg-themeinput');
                 }
             }
@@ -375,21 +466,21 @@
               const logs = await idbGetAll(); logList.innerHTML = ''; logs.sort((a,b)=> (b.t > a.t ? 1 : -1));
               logs.forEach(l=>{
                 const card = document.createElement('div'); 
-                card.className = 'bg-themeinput p-4 rounded-xl border border-themeborder hover:border-themeaccent transition-colors text-sm';
+                card.className = 'bg-themeinput p-4 rounded-xl border border-themeborder hover:border-themeaccent transition-colors text-sm shadow-sm';
                 const dateObj = new Date(l.t); const scanTime = dateObj.toLocaleDateString() + ' ' + dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
                 card.innerHTML = `
-                  <div class="flex justify-between items-center border-b border-themeborder/40 pb-2 mb-3">
-                      <div class="font-code text-[10px] text-themeaccent tracking-widest uppercase">Scanned: ${scanTime}</div>
-                      <button class="danger del-btn font-bold text-[10px] uppercase px-2 py-1 bg-rose-950/40 text-rose-400 rounded border border-rose-900/50" data-id="${l.id}">DEL</button>
+                  <div class="flex justify-between items-center border-b border-themeborder pb-2 mb-3">
+                      <div class="font-code text-[10px] text-themeaccent tracking-widest uppercase font-bold">Scanned: ${scanTime}</div>
+                      <button class="danger del-btn font-bold text-[10px] uppercase px-2 py-1 bg-rose-950/20 text-rose-500 rounded border border-rose-900/50" data-id="${l.id}">DEL</button>
                   </div>
-                  <div class="grid grid-cols-2 gap-2 mb-3 font-code text-xs">
-                      <div><span class="text-white/60">Co:</span> ${l.company}</div>
-                      <div><span class="text-white/60">Tkt:</span> ${l.truck}</div>
-                      <div class="col-span-2"><span class="text-white/60">Mix:</span> ${l.material}</div>
+                  <div class="grid grid-cols-2 gap-2 mb-3 font-code text-xs text-themetext">
+                      <div><span class="text-thememuted">Co:</span> ${l.company}</div>
+                      <div><span class="text-thememuted">Tkt:</span> ${l.truck}</div>
+                      <div class="col-span-2"><span class="text-thememuted">Mix:</span> ${l.material}</div>
                   </div>
-                  <div class="bg-themepanel/50 p-3 rounded-lg border border-themeborder flex justify-between items-center font-code text-xs">
-                      <div><span class="text-white/60">Eff. Mass:</span> <br><span class="font-bold text-themetext">${parseFloat(l.effectiveMass || l.tonnage).toFixed(2)}t</span></div>
-                      <div><span class="text-white/60">Rate:</span> <br><span class="font-bold text-themetext">${parseFloat(l.spreadRate).toFixed(2)} m²</span></div>
+                  <div class="bg-themepanel p-3 rounded-lg border border-themeborder flex justify-between items-center font-code text-xs text-themetext">
+                      <div><span class="text-thememuted">Eff. Mass:</span> <br><span class="font-bold">${parseFloat(l.effectiveMass || l.tonnage).toFixed(2)}t</span></div>
+                      <div><span class="text-thememuted">Rate:</span> <br><span class="font-bold">${parseFloat(l.spreadRate).toFixed(2)} m²</span></div>
                       <div class="text-right"><span class="text-themeaccent">Thick:</span> <br><span class="font-black text-themeaccent text-base">${parseFloat(l.thickness).toFixed(1)}mm</span></div>
                   </div>`;
                 card.querySelector('.del-btn').onclick = async ()=> { await idbDelete(l.id); await renderLogs(); };
